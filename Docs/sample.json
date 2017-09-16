@@ -1,0 +1,46 @@
+{
+	"pointofinterest" : [
+		{
+			"uid" : "sdfsqfjdmhqsfjkdqh",
+			"type" : "fire",
+			"category" : "issue" / "resource"
+			"loc" : [XXX, YYY],
+			"created" : date,
+			"lastUpdated" : date,
+			"chatUid" : xxx
+		},
+		{
+
+		},
+		....
+	],
+
+	"users" : [
+		{
+			"uid" : "sdfsqfjdmhqsfjkdqh",
+			"type" : ["doctor", "fireman", "superman"],
+			"loc" : [XXX, YYY],
+			"created" : date,
+			"lastUpdated" : date,
+			"username" : "Petit-Iceberg"
+		},
+	],
+
+	"ooms" : [
+		{"uid" : xxx,
+		  "messages" : [
+		  	{
+		  		"user":
+		  		"text":
+		  		"timestamp"
+		  	}
+		  ]
+		}
+
+	]
+
+
+	"obsolete" : [ (uid, deletionTime), ... ]
+	]
+
+}
