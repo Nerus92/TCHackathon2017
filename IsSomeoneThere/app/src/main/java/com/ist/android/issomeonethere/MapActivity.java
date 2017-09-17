@@ -206,18 +206,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
             updateMyType(type, category);
         }
 
-
-        // For debug only
-        final Button button = (Button) findViewById(R.id.clickButton);
-        button.setOnClickListener( new View.OnClickListener() {
-            public void onClick(View v) {
-                drawPOI(37.774929, -122.419416, "NeedFood");
-                drawPOI(37.734929, -122.429416, "ProvideFood");
-                drawPOI(37.714929, -122.439416, "NeedFood");
-                drawPOI(37.784929, -122.419416, "ProvideFood");
-            }
-        });
-
         for(POI poi: ((MainApplication) getApplication()).model.POIs) {
             Double lat = poi.getLat();
             Double lng = poi.getLng();
