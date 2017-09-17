@@ -1,5 +1,8 @@
 package com.ist.android.issomeonethere;
 
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
+
 import com.ist.android.issomeonethere.data.ChatRoom;
 import com.ist.android.issomeonethere.data.Obsolete;
 import com.ist.android.issomeonethere.data.POI;

@@ -3,6 +3,7 @@ package com.ist.android.issomeonethere;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -143,7 +144,15 @@ public class UDarkNode implements TransportListener {
             Log.i("onNewContent UDark", "increment is "+ count);
             if (count > model.lastUpdated) {
                 model.updateAll(json);
-                //activity.syncOverNetworks();
+
+                Intent modelupdated = new Intent("MODEL_UPDATED");
+                LocalBroadcastManager.getInstance(app.getApplicationContext()).sendBroadcast(modelupdated);
+
+                try {
+                    Toast.makeText(app.getApplicationContext(), "Updated Received (Mesh).", Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {}
+
                 app.syncOverNetworks();
             }
 

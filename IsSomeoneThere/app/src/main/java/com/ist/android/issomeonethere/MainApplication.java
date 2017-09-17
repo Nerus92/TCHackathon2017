@@ -6,6 +6,7 @@ import android.media.Image;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.gson.JsonParser;
 
@@ -75,6 +76,10 @@ public class MainApplication extends Application {
 
                 if (count > model.lastUpdated) {
                     model.updateAll(data);
+
+                    Intent modelupdated = new Intent("MODEL_UPDATED");
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(modelupdated);
+
                     syncOverNetworks();
                 }
 
