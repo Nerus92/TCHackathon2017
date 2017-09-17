@@ -56,6 +56,15 @@
         <activity
             android:name=".CanYouGoThereActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TransportationTypeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BoatTypeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CarTypeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

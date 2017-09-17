@@ -52,6 +52,13 @@ public class HelpCategoriesActivity extends AppCompatActivity {
                     intent.putExtras(getIntent().getExtras());
                     intent.putExtra("Category", "transportation");
                     startActivity(intent);
+                } else {
+                    Intent intent = new Intent(
+                            HelpCategoriesActivity.this,
+                            TransportationTypeActivity.class);
+                    intent.putExtras(getIntent().getExtras());
+                    intent.putExtra("Category", "transportation");
+                    startActivity(intent);
                 }
             }
         });
