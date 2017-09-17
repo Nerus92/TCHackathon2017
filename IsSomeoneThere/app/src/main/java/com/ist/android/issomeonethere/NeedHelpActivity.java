@@ -64,7 +64,7 @@ public class NeedHelpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(
                         NeedHelpActivity.this,
-                        CanYouMoveActivity.class);
+                        CanYouGoThereActivity.class);
                 intent.putExtra("IssueType", "food");
                 startActivity(intent);
             }
@@ -75,7 +75,7 @@ public class NeedHelpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(
                         NeedHelpActivity.this,
-                        CanYouMoveActivity.class);
+                        CanYouGoThereActivity.class);
                 intent.putExtra("IssueType", "water");
                 startActivity(intent);
             }
