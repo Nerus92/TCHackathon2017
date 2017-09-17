@@ -22,12 +22,20 @@
         <activity
             android:name=".NeedHelpActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".MedicalSituationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MedicalSituationActivity"
             android:parentActivityName=".NeedHelpActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".IsRoadAccessibleActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".WhyNoRoadActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ChatActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
