@@ -38,7 +38,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         app = (MainApplication) getApplication();
-       //        app.model = new Model();
+        app.model.increment();
+        app.syncOverNetworks();
+
+        //        app.model = new Model();
 
         app.setUdarkNode(new UDarkNode(app));
         mUdark = app.getUDarkNode();

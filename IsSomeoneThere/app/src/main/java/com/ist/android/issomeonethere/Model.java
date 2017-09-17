@@ -42,6 +42,7 @@ public class Model {
         updatePOIs();
         updateUsers();
         updateChatrooms();
+
     }
 
     public void updateAll(JSONObject data) {
