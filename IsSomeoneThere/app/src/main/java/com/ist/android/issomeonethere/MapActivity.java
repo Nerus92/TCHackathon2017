@@ -69,6 +69,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     // GPS Stuff
     private LocationManager locationManager;
     private String locationProvider;
+    private boolean bFirstLocation;
 
     // Who am I
     private String myType;
@@ -165,10 +166,10 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         poiTypeOverlay.put("NeedMedical", new GraphicsOverlay());
 
         // Initial map window
-        latMax = 37.805639;
-        lngMax = -122.35233;
-        latMin = 37.736164;
-        lngMin = -122.5246813;
+        latMax = -1000;
+        lngMax = -1000;
+        latMin = 1000;
+        lngMin = 1000;
 
         // set the map to be displayed in this view
         mMapView = (MapView) findViewById(R.id.mapView);
@@ -211,14 +212,26 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
             }
         });
 
+
+        drawPOI(37.774929, -122.419416, "NeedFood");
+        drawPOI(37.734929, -122.429416, "ProvideFood");
+        drawPOI(37.714929, -122.439416, "NeedFood");
+        drawPOI(37.784929, -122.419416, "ProvideFood");
+
         // setup GPS
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return;
         }
+        bFirstLocation = true;
         gpsConfigure();
         gpsUpdateProvider();
         gpsStart();
+        Location location = locationManager.getLastKnownLocation(locationProvider);
+        if(location != null) {
+            onLocationChanged(location);
+            updateMapView();
+        }
     }
 
     @Override
@@ -244,6 +257,10 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         if(lat<latMin) latMin = lat;
         if(lng>lngMax) lngMax = lng;
         if(lng<lngMin) lngMin = lng;
+        if(bFirstLocation) {
+            bFirstLocation = false;
+            updateMapView();
+        }
 
         // Save the current location
         myLocation = new Point(lng, lat, SpatialReferences.getWgs84());
@@ -253,9 +270,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         Graphic graphic = new Graphic(myLocation, myLocationMarker);
         myLocationOverlay.getGraphics().clear();
         myLocationOverlay.getGraphics().add(graphic);
-
-        // Display the map
-        updateMapView();
 
         //TODO: call Jerome method to update my position and type
 
@@ -346,7 +360,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     }
 
     private void updateMapView() {
-        mMapView.setViewpointGeometryAsync(new Envelope(lngMin, latMin, lngMax, latMax, SpatialReferences.getWgs84()), getResources().getDimension(R.dimen.viewpoint_padding));
+        Envelope envelope = new Envelope(lngMin, latMin, lngMax, latMax, SpatialReferences.getWgs84());
+        Log.i("ENVELOPE", envelope.toString());
+        mMapView.setViewpointGeometryAsync(envelope, getResources().getDimension(R.dimen.viewpoint_padding));
     }
 
     private void updateMyType(String type, String category) {

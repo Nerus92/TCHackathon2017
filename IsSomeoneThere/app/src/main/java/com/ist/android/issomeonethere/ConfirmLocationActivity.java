@@ -24,6 +24,7 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -84,6 +85,10 @@ public class ConfirmLocationActivity extends AppCompatActivity implements Locati
         gpsConfigure();
         gpsUpdateProvider();
         gpsStart();
+        Location location = locationManager.getLastKnownLocation(locationProvider);
+        if(location != null) {
+            onLocationChanged(location);
+        }
 
         final Button b_confirm = (Button) findViewById(R.id.b_confirm);
         b_confirm.setOnClickListener(new View.OnClickListener() {
@@ -117,13 +122,14 @@ public class ConfirmLocationActivity extends AppCompatActivity implements Locati
 
         // Save the current location
         myLocation = new Point(lng, lat, SpatialReferences.getWgs84());
-        mMapView.setViewpointCenterAsync(myLocation);
 
         // Add the new point on the map
         Graphic graphic = new Graphic(myLocation, myLocationMarker);
         myLocationOverlay.getGraphics().clear();
         myLocationOverlay.getGraphics().add(graphic);
 
+        mMapView.setViewpoint(new Viewpoint(myLocation, 4000));
+//        mMapView.setViewpointCenterAsync(myLocation, 100.0);
     }
 
     public void onProviderEnabled(String newProvider) {
