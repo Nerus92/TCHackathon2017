@@ -36,6 +36,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Multipoint;
@@ -73,6 +74,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     private boolean bFirstLocation;
 
     // Who am I
+    private String myPOIType;
+    private String myPOICategory;
+    private String myPOISearchedType;
     private String myType;
     private String displayedType;
 
@@ -259,10 +263,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         if(lat<latMin) latMin = lat;
         if(lng>lngMax) lngMax = lng;
         if(lng<lngMin) lngMin = lng;
-        if(bFirstLocation) {
-            bFirstLocation = false;
-            updateMapView();
-        }
 
         // Save the current location
         myLocation = new Point(lng, lat, SpatialReferences.getWgs84());
@@ -273,7 +273,26 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         myLocationOverlay.getGraphics().clear();
         myLocationOverlay.getGraphics().add(graphic);
 
-        //TODO: call Jerome method to update my position and type
+        if(bFirstLocation) {
+            bFirstLocation = false;
+
+            // PUblish my position only the first time right now...
+            POI poi = new POI();
+            poi.setCapacity(1);
+            poi.setCategory(myPOICategory);
+            poi.setChatId(UUID.randomUUID().toString());
+            // TODO: Create Chat
+            poi.setCreated(System.currentTimeMillis());
+            poi.setLastUpdated(System.currentTimeMillis());
+            poi.setLat(myLocation.getY());
+            poi.setLng(myLocation.getX());
+            poi.setType(myPOIType);
+            poi.setUuid(UUID.randomUUID().toString());
+            ((MainApplication) getApplication()).model.POIs.add(poi);
+            // TODO SyncOverNetwork
+
+            updateMapView();
+        }
 
     }
 
@@ -331,25 +350,24 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     private void searchPOI(Envelope envelope) {
         Log.i("ENVELOPE", envelope.toString());
         int counter = 0;
-
-        //TODO: Use Jerome POI class instead
-
-        Point selectedPoint = new Point(0,0);
+        POI selectedPoint = new POI();
         Multipoint multipoint = new Multipoint(poiTypeLocationList.get(displayedType));
-        for (Point pt : multipoint.getPoints()) {
-//                    Log.i("Point", String.format("Point x=%f,y=%f",  pt.getX(), pt.getY()));
-            if (pt.getX() < envelope.getXMax() && pt.getX() > envelope.getXMin() &&
-                    pt.getY() < envelope.getYMax() && pt.getY() > envelope.getYMin()) {
+//        for (Point pt : multipoint.getPoints()) {
+        for(POI poi: ((MainApplication) getApplication()).model.POIs) {
+//          Log.i("Point", String.format("Point x=%f,y=%f",  pt.getX(), pt.getY()));
+            if (poi.getCategory().equals(myPOICategory) && poi.getType().equals(myPOISearchedType) &&
+                    poi.getLng() < envelope.getXMax() && poi.getLng() > envelope.getXMin() &&
+                    poi.getLat() < envelope.getYMax() && poi.getLat() > envelope.getYMin()) {
                 counter++;
-                selectedPoint = pt;
+                selectedPoint = poi;
             }
         }
 
         if (counter == 0) {
             Log.i("ENVELOPE", "empty");
         } else if(counter == 1) {
-            Toast.makeText(getApplicationContext(), selectedPoint.toString() + " selected", Toast.LENGTH_SHORT).show();
-            goToChat("abcde");
+            Toast.makeText(getApplicationContext(), selectedPoint.getUuid() + " selected", Toast.LENGTH_SHORT).show();
+            goToChat(selectedPoint.getChatId());
         } else {
             Toast.makeText(getApplicationContext(), counter + " features selected, select only 1", Toast.LENGTH_SHORT).show();
         }
@@ -357,7 +375,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
 
     private void goToChat(String chat_guid) {
         Intent myIntent = new Intent(MapActivity.this, ChatActivity.class);
-        myIntent.putExtra("guid", chat_guid);
+        myIntent.putExtra("chat_uuid", chat_guid);
         MapActivity.this.startActivity(myIntent);
     }
 
@@ -368,8 +386,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     }
 
     private void updateMyType(String type, String category) {
-        myType = type+category;
-        displayedType = (type.equals("Provide")?"Need":"Provide")+category;
+        myPOICategory = category;
+        myPOIType = type;
+        myPOISearchedType = (type.equals("Provide")?"Need":"Provide");
+        myType = myPOIType + myPOICategory;
+        displayedType = myPOISearchedType + myPOICategory;
         Log.i("TYPE", String.format("I am %s, I see %s", myType, displayedType));
         mMapView.getGraphicsOverlays().clear();
         mMapView.getGraphicsOverlays().add(myLocationOverlay);
