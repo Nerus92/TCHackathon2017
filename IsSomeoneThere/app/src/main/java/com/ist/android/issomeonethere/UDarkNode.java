@@ -87,7 +87,6 @@ public class UDarkNode implements TransportListener {
             return;
 
         ++framesCount;
-        activity.refreshFrames();
 
         for(Link link : links)
             link.sendFrame(frameData);
@@ -103,6 +102,7 @@ public class UDarkNode implements TransportListener {
     public void transportLinkConnected(Transport transport, Link link) {
         Log.i("UDark", "Link connected");
         links.add(link);
+        activity.connected_udark = true;
         try {
             broadcastFrame(activity.model.toJSON().getBytes(StandardCharsets.UTF_8));
         } catch (JSONException e) {
@@ -118,8 +118,8 @@ public class UDarkNode implements TransportListener {
 
         if(links.isEmpty())
         {
+            activity.connected_udark = false;
             framesCount = 0;
-            activity.refreshFrames();
         }
     }
 
@@ -133,9 +133,10 @@ public class UDarkNode implements TransportListener {
             JSONObject json = new JSONObject(from_json);
             long count = json.getLong("lastUpdated");
             Log.i("onNewContent UDark", "increment is "+ count);
-            if (count > activity.model.lastUpdated) activity.model.updateAll(json);
-
-
+            if (count > activity.model.lastUpdated) {
+                activity.model.updateAll(json);
+                activity.syncOverNetworks();
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();

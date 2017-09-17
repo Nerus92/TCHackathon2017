@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     public UDarkNode mUdark;
     public Model model;
 
+    public Boolean connected_io = false;
+    public Boolean connected_udark = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    connected_io = true;
                     System.out.println("socket.io connected");
                 }
             });
@@ -127,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    connected_io = false;
                     System.out.println("socket.io disconnected");
                 }
             });
@@ -139,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    connected_io = false;
                     System.out.println("socket.io connection error");
                 }
             });
@@ -159,7 +165,10 @@ public class MainActivity extends AppCompatActivity {
 //                        final TextView text = (TextView) findViewById(R.id.mText);
 //                        text.setText(Long.toString(count));
 
-                        if (count > model.lastUpdated) model.updateAll(data);
+                        if (count > model.lastUpdated) {
+                            model.updateAll(data);
+                            syncOverNetworks();
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -169,8 +178,16 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
-    public void refreshFrames() {
+    public void syncOverNetworks() {
+        String json = null;
+        try {
+            json = model.toJSON();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mSocket.emit("content", json);
+        mUdark.broadcastFrame(json.getBytes());
     }
+
 
 }
