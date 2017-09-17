@@ -361,7 +361,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         if (counter == 0) {
             Log.i("ENVELOPE", "empty");
         } else if(counter == 1) {
-            Toast.makeText(getApplicationContext(), selectedPoint.getUuid() + " selected", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), selectedPoint.getUuid() + " selected", Toast.LENGTH_SHORT).show();
             goToChat(selectedPoint.getChatId());
         } else {
             Toast.makeText(getApplicationContext(), counter + " features selected, select only 1", Toast.LENGTH_SHORT).show();
