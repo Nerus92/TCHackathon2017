@@ -1,8 +1,8 @@
 package com.ist.android.issomeonethere;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,6 +20,8 @@ import java.net.URISyntaxException;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,28 +33,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         model = new Model();
         System.out.println(model.obsolete.getOldies());
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    model.increment();
-
-                    final TextView text = (TextView) findViewById(R.id.mText);
-                    text.setText(Long.toString(model.lastUpdated));
-
-                    mSocket.emit("content", model.toJSON());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
 
         MainApplication app = (MainApplication) getApplication();
         mSocket = app.getSocket();
@@ -62,6 +45,37 @@ public class MainActivity extends AppCompatActivity {
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.on("content", onNewContent);
         mSocket.connect();
+
+        final Button b_need_help = (Button) findViewById(R.id.b_need_help);
+        b_need_help.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        MainActivity.this,
+                        HelpCategoriesActivity.class);
+                intent.putExtra("Type", "Need");
+                startActivity(intent);
+            }
+        });
+        final Button b_provide_help = (Button) findViewById(R.id.b_provide_help);
+        b_provide_help.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        MainActivity.this,
+                        HelpCategoriesActivity.class);
+                intent.putExtra("Type", "Provide");
+                startActivity(intent);
+            }
+        });
+        final Button b_map = (Button) findViewById(R.id.b_map);
+        b_map.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        MainActivity.this,
+                        MapActivity.class);
+                intent.putExtra("Type", "Map");
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -78,29 +92,6 @@ public class MainActivity extends AppCompatActivity {
         mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.off("content", onNewContent);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private Emitter.Listener onConnect = new Emitter.Listener() {
@@ -150,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
                         long count = data.getLong("lastUpdated");
                         Log.i("onNewContent", "increment is "+ count);
 
-                        final TextView text = (TextView) findViewById(R.id.mText);
-                        text.setText(Long.toString(count));
+//                        final TextView text = (TextView) findViewById(R.id.mText);
+//                        text.setText(Long.toString(count));
 
                         if (count > model.lastUpdated) model.updateAll(data);
 
@@ -162,6 +153,4 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     };
-
-
 }
