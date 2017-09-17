@@ -28,7 +28,7 @@
             android:background="@android:color/transparent"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="Food" />
+            app:title="I need food..." />
 
     </android.support.design.widget.AppBarLayout>
 

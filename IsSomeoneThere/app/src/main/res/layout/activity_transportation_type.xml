@@ -28,7 +28,7 @@
             android:background="@android:color/transparent"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="Transportation" />
+            app:title="I can provide transportation..." />
 
     </android.support.design.widget.AppBarLayout>
 

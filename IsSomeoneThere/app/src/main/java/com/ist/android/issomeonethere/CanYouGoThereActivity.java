@@ -27,10 +27,15 @@ public class CanYouGoThereActivity extends AppCompatActivity {
             }
         });
 
-        if (getIntent().getExtras().get("Category").equals("Water")) {
-            ((Toolbar) findViewById(R.id.toolbar_go_there)).setTitle("Water");
+        final String type = getIntent().getExtras().getString("Type");
+        final String category = getIntent().getExtras().getString("Category");
+
+        if (type.equals("Need")) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.appRed));
+            toolbar.setTitle("I need " + category + "...");
         } else {
-            ((Toolbar) findViewById(R.id.toolbar_go_there)).setTitle("Food");
+            toolbar.setBackgroundColor(getResources().getColor(R.color.appBlue));
+            toolbar.setTitle("I can provide " + category + "...");
         }
 
         final Button b_yes = (Button) findViewById(R.id.b_yes);

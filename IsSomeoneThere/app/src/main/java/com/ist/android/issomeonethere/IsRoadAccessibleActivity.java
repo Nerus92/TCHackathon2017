@@ -26,6 +26,17 @@ public class IsRoadAccessibleActivity extends AppCompatActivity {
             }
         });
 
+        final String type = getIntent().getExtras().getString("Type");
+        final String category = getIntent().getExtras().getString("Category");
+
+        if (type.equals("Need")) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.appRed));
+            toolbar.setTitle("I need " + category + "...");
+        } else {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.appBlue));
+            toolbar.setTitle("I can provide " + category + "...");
+        }
+
         final Button b_yes = (Button) findViewById(R.id.b_yes);
         b_yes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

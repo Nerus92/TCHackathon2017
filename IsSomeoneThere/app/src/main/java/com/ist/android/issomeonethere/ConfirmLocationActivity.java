@@ -63,6 +63,17 @@ public class ConfirmLocationActivity extends AppCompatActivity implements Locati
             }
         });
 
+        final String type = getIntent().getExtras().getString("Type");
+        final String category = getIntent().getExtras().getString("Category");
+
+        if (type.equals("Need")) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.appRed));
+            toolbar.setTitle("I need " + category + "...");
+        } else {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.appBlue));
+            toolbar.setTitle("I can provide " + category + "...");
+        }
+
         // create points designs
         myLocationMarker = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 12); //size 12, style of circle
 
@@ -95,9 +106,6 @@ public class ConfirmLocationActivity extends AppCompatActivity implements Locati
         final Button b_confirm = (Button) findViewById(R.id.b_confirm);
         b_confirm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String type = getIntent().getExtras().getString("Type");
-                String category = getIntent().getExtras().getString("Category");
-
                 POI poi = new POI();
                 poi.setCapacity(1);
                 poi.setCategory(category);
