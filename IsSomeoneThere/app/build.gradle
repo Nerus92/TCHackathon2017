@@ -32,5 +32,7 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
     compile 'com.github.travijuu:numberpicker:1.0.7'
+    compile 'com.esri.arcgisruntime:arcgis-android:100.1.0'
+    compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
     testCompile 'junit:junit:4.12'
 }
