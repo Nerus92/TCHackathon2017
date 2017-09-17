@@ -1,7 +1,11 @@
 package com.ist.android.issomeonethere;
 
 import android.app.Application;
+import android.content.Intent;
+import android.media.Image;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Button;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +18,10 @@ import java.net.URISyntaxException;
 
 
 public class MainApplication extends Application {
+
+    public boolean socket_connected = false;
+    public boolean udark_connected = false;
+
     public Model model;
     {
         model = new Model();
@@ -22,14 +30,18 @@ public class MainApplication extends Application {
     private Emitter.Listener onConnect = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
+            socket_connected = true;
+            changeServStatus();
             System.out.println("socket.io connected");
+
         }
     };
 
     private Emitter.Listener onDisconnect = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            //connected_io = false;
+            socket_connected = false;
+            changeServStatus();
             System.out.println("socket.io disconnected");
         }
     };
@@ -37,7 +49,8 @@ public class MainApplication extends Application {
     private Emitter.Listener onConnectError = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            // connected_io = false;
+            socket_connected = false;
+            changeServStatus();
             System.out.println("socket.io connection error");
         }
     };
@@ -104,6 +117,18 @@ public class MainApplication extends Application {
         if (mUdark != null) {
             mUdark.broadcastFrame(json.getBytes());
         }
+    }
+
+    public void changeServStatus() {
+        Log.i("JJ", "changeSerStatus "+socket_connected);
+        Intent wifichanged = new Intent("WIFI_CHANGE");
+        wifichanged.putExtra("status", socket_connected);
+        LocalBroadcastManager.getInstance(this.getApplicationContext()).sendBroadcast(wifichanged);
+    }
+
+    public boolean getSocketStatus()
+    {
+        return socket_connected;
     }
 
 

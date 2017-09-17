@@ -71,6 +71,7 @@ public class Model {
     public void createChatRoom(String uid) {
         ChatRoom c = new ChatRoom();
         c.setUid(uid);
+        chats.add(c);
     }
 
     public void addTextToChatRoom(String uid, String text) {

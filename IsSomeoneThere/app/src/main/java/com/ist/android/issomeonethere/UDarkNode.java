@@ -1,5 +1,7 @@
 package com.ist.android.issomeonethere;
 
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -26,10 +28,13 @@ public class UDarkNode implements TransportListener {
 
     private ArrayList<Link> links = new ArrayList<>();
     private int framesCount = 0;
+    public Boolean connected;
 
-
-    public UDarkNode(MainApplication app)
+    public UDarkNode(MainApplication application)
     {
+        connected = false;
+
+        app = application;
         model = app.model;
         do
         {
@@ -103,7 +108,8 @@ public class UDarkNode implements TransportListener {
     public void transportLinkConnected(Transport transport, Link link) {
         Log.i("UDark", "Link connected");
         links.add(link);
-        //activity.connected_udark = true;
+        connected = true;
+        changeServStatus();
 
         try {
             broadcastFrame(model.toJSON().getBytes(StandardCharsets.UTF_8));
@@ -119,7 +125,8 @@ public class UDarkNode implements TransportListener {
 
         if(links.isEmpty())
         {
-            //activity.connected_udark = false;
+            connected = false;
+            changeServStatus();
             framesCount = 0;
         }
     }
@@ -143,7 +150,12 @@ public class UDarkNode implements TransportListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
+
+    public void changeServStatus() {
+        Intent udark = new Intent("UDARK_CHANGE");
+        udark.putExtra("status", connected);
+        LocalBroadcastManager.getInstance(app.getApplicationContext()).sendBroadcast(udark);
+    }
+
 }
