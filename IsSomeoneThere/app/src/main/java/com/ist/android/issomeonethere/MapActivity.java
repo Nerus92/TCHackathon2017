@@ -95,8 +95,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                onBackPressed();
+            onBackPressed();
             }
         });
 
@@ -208,12 +207,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
             updateMyType(type, category);
         }
 
-        for(POI poi: ((MainApplication) getApplication()).model.POIs) {
-            Double lat = poi.getLat();
-            Double lng = poi.getLng();
-            String cat = poi.getType()+poi.getCategory();
-            drawPOI(lat, lng, cat);
-        }
+        // Load POIs
+        loadPOIs();
 
         // setup GPS
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -415,5 +410,14 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.appGreen));
         toolbar.setTitle("People around me");
+    }
+
+    private void loadPOIs() {
+        for(POI poi: ((MainApplication) getApplication()).model.POIs) {
+            Double lat = poi.getLat();
+            Double lng = poi.getLng();
+            String cat = poi.getType()+poi.getCategory();
+            drawPOI(lat, lng, cat);
+        }
     }
 }

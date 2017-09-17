@@ -1,6 +1,10 @@
 package com.ist.android.issomeonethere;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ist.android.issomeonethere.data.ChatRoom;
@@ -34,8 +39,6 @@ public class ChatActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-
         /*
         TextView tv_chat = (TextView) findViewById(R.id.tv_chat);
         tv_chat.setText(getIntent().getExtras().getString("info"));
@@ -110,5 +113,22 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(broadcastReceiverSrv, new IntentFilter("WIFI_CHANGE"));
+    }
 
+    private BroadcastReceiver broadcastReceiverSrv = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean cnx = intent.getExtras().getBoolean("status");
+            ImageView wifi = (ImageView) findViewById(R.id.imageWifi);
+            if (cnx) {
+                wifi.setImageDrawable(getResources().getDrawable(R.drawable.wifi));
+            }
+            else {
+                wifi.setImageDrawable(getResources().getDrawable(R.drawable.no_wifi));
+            }
+        }
+    };
 }
