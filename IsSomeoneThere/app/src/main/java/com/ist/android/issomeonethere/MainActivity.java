@@ -156,10 +156,11 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                try {
                     JSONObject data = (JSONObject) args[0];
                     try {
                         long count = data.getLong("lastUpdated");
-                        Log.i("onNewContent", "increment is "+ count);
+                        Log.i("onNewContent", "increment is " + count);
 
 //                        final TextView text = (TextView) findViewById(R.id.mText);
 //                        text.setText(Long.toString(count));
@@ -172,6 +173,9 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
                 }
             });
         }

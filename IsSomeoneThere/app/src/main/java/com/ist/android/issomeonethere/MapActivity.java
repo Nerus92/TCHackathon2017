@@ -195,6 +195,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
             }
         });
 
+        mMapView.setMap(map);
+
         // Configure my type
         try {
             String type = getIntent().getExtras().getString("Type");
@@ -203,8 +205,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         } catch(Exception e) {
             updateMyType("Need", "Food");
         }
-
-        mMapView.setMap(map);
 
         // For debug only
         final Button button = (Button) findViewById(R.id.clickButton);
@@ -238,6 +238,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
             onLocationChanged(location);
             updateMapView();
         }
+
     }
 
     @Override
@@ -330,8 +331,12 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     private void drawPOI(Double lat, Double lng, String type) {
         // Save this point to the list
         Point poi = new Point(lng, lat, SpatialReferences.getWgs84());
-        poiTypeLocationList.get(type).add(poi);
-
+        if(poiTypeLocationList.containsKey(type)) {
+            poiTypeLocationList.get(type).add(poi);
+        } else {
+            Log.e("POI TYPE", "UNABLE TO ADD POI type " + type);
+            return;
+        }
         // Add the icon on the list
         Graphic graphic = new Graphic(poi, poiTypeSymbols.get(type));
         poiTypeOverlay.get(type).getGraphics().add(graphic);
