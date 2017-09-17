@@ -31,7 +31,7 @@ public class IsRoadAccessibleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(
                         IsRoadAccessibleActivity.this,
-                        ChatActivity.class);
+                        ConfirmLocationActivity.class);
                 intent.putExtras(getIntent().getExtras());
                 intent.putExtra("info", getIntent().getExtras().getString("info").concat("Road is accessible/n"));
                 startActivity(intent);

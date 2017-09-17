@@ -7,12 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
-public class NeedHelpActivity extends AppCompatActivity {
+public class ConfirmLocationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_need_help);
+        setContentView(R.layout.activity_confirm_location);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -26,26 +26,16 @@ public class NeedHelpActivity extends AppCompatActivity {
             }
         });
 
-        final Button b_medical = (Button) findViewById(R.id.b_medical);
-        b_medical.setOnClickListener(new View.OnClickListener() {
+        final Button b_confirm = (Button) findViewById(R.id.b_confirm);
+        b_confirm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(
-                        NeedHelpActivity.this,
-                        MedicalSituationActivity.class);
-                intent.putExtra("IssueType", "medical");
+                        ConfirmLocationActivity.this,
+                        ChatActivity.class);
+                intent.putExtras(getIntent().getExtras());
                 startActivity(intent);
             }
         });
 
-        final Button b_rescue = (Button) findViewById(R.id.b_rescue);
-        b_rescue.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(
-                        NeedHelpActivity.this,
-                        RescueActivity.class);
-                intent.putExtra("IssueType", "rescue");
-                startActivity(intent);
-            }
-        });
     }
 }

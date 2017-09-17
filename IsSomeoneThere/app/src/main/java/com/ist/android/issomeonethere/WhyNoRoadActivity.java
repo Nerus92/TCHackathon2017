@@ -31,7 +31,7 @@ public class WhyNoRoadActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(
                         WhyNoRoadActivity.this,
-                        ChatActivity.class);
+                        ConfirmLocationActivity.class);
                 intent.putExtras(getIntent().getExtras());
                 intent.putExtra("info", getIntent().getExtras().getString("info").concat("Because it's blocked/n"));
                 startActivity(intent);
@@ -43,7 +43,7 @@ public class WhyNoRoadActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(
                         WhyNoRoadActivity.this,
-                        ChatActivity.class);
+                        ConfirmLocationActivity.class);
                 intent.putExtras(getIntent().getExtras());
                 intent.putExtra("info", getIntent().getExtras().getString("info").concat("Because of flooding/n"));
                 startActivity(intent);
@@ -55,7 +55,7 @@ public class WhyNoRoadActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(
                         WhyNoRoadActivity.this,
-                        ChatActivity.class);
+                        ConfirmLocationActivity.class);
                 intent.putExtras(getIntent().getExtras());
                 intent.putExtra("info", getIntent().getExtras().getString("info").concat("For other reasons/n"));
                 startActivity(intent);
