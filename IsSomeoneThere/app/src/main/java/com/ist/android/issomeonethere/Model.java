@@ -1,5 +1,6 @@
 package com.ist.android.issomeonethere;
 
+import com.ist.android.issomeonethere.data.ChatRoom;
 import com.ist.android.issomeonethere.data.Obsolete;
 import com.ist.android.issomeonethere.data.POI;
 import com.ist.android.issomeonethere.data.RawData;
@@ -23,6 +24,7 @@ public class Model {
     public long lastUpdated;
     public List<POI> POIs;
     public List<User> users;
+    public List<ChatRoom> chats;
     public Obsolete obsolete;
 
     public Model() {
@@ -30,6 +32,7 @@ public class Model {
         POIs = new ArrayList<POI>();
         users = new ArrayList<User>();
         obsolete = new Obsolete();
+        chats = new ArrayList<ChatRoom>();
         lastUpdated = 0; // System.currentTimeMillis();
 
         System.out.println("Init model");
@@ -38,6 +41,7 @@ public class Model {
         updateObsolete();
         updatePOIs();
         updateUsers();
+        updateChatrooms();
     }
 
     public void updateAll(JSONObject data) {
@@ -48,12 +52,29 @@ public class Model {
             updateObsolete();
             updatePOIs();
             updateUsers();
+            updateChatrooms();
             try {
                 lastUpdated = data.getLong("lastUpdated");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public ChatRoom getChatRoomByUid(String uid) {
+        for(ChatRoom ch : chats) {
+            if (ch.getUid().equals(uid)) return ch;
+        }
+        return null;
+    }
+
+    public void createChatRoom(String uid) {
+        ChatRoom c = new ChatRoom();
+        c.setUid(uid);
+    }
+
+    public void addTextToChatRoom(String uid, String text) {
+        getChatRoomByUid(uid).addText(text);
     }
 
     private void updatePOIs() {
@@ -146,6 +167,33 @@ public class Model {
 
     }
 
+    private void updateChatrooms() {
+        chats.clear();
+
+        try {
+            JSONObject raw_chatrooms = rawData.local_data.getJSONObject("chatrooms");
+
+            Iterator<String> it = raw_chatrooms.keys();
+            while (it.hasNext()) {
+                String id = it.next();
+
+                ChatRoom chtrm = new ChatRoom();
+                chtrm.setUid(id);
+
+                JSONArray text_array = raw_chatrooms.getJSONArray(id);
+                for (int j=0; j < text_array.length(); j++) {
+                    chtrm.addText(text_array.getString(j));
+                }
+                chats.add(chtrm);
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public String toJSON() throws JSONException {
 
         synchronized (this) {
@@ -207,6 +255,19 @@ public class Model {
             }
 
             json_model.put("users", json_users);
+
+            // ----------- Chatrooms
+            JSONObject json_chatrooms = new JSONObject();
+            for (ChatRoom ch : chats) {
+                JSONArray json_chat = new JSONArray();
+                for(String s : ch.getTexts()) {
+                    json_chat.put(s);
+                }
+                json_chatrooms.put(ch.getUid(), json_chat);
+            }
+            json_model.put("chatrooms", json_chatrooms);
+
+            // -------------------------------
 
             json_model.put("lastUpdated", lastUpdated);
 
