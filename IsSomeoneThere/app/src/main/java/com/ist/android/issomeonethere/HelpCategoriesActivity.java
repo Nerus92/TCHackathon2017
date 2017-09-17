@@ -1,11 +1,14 @@
 package com.ist.android.issomeonethere;
 
 import android.content.Intent;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.Button;
+import android.support.v4.content.res.ResourcesCompat;
 
 public class HelpCategoriesActivity extends AppCompatActivity {
 
@@ -67,12 +70,6 @@ public class HelpCategoriesActivity extends AppCompatActivity {
                 }
             }
         });
-
-        if (getIntent().getExtras().getString("Type").equals("Need")) {
-            b_rescue.setText("Rescue");
-        } else {
-            b_rescue.setText("Transportation");
-        }
 
         final Button b_shelter = (Button) findViewById(R.id.b_shelter);
         b_shelter.setOnClickListener(new View.OnClickListener() {
@@ -136,5 +133,25 @@ public class HelpCategoriesActivity extends AppCompatActivity {
                 }
             }
         });
+
+        if (getIntent().getExtras().getString("Type").equals("Need")) {
+            b_medical.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.needmedical2, null));
+            b_rescue.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.needrescue2, null));
+            b_shelter.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.needshelter2, null));
+            b_food.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.needfood2, null));
+            b_water.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.needwater2, null));
+//            ViewStub simpleViewStub = ((ViewStub) findViewById(R.id.stubNeed));
+//            simpleViewStub.setLayoutResource(R.layout.appbarneed);
+//            simpleViewStub.inflate();
+        } else {
+            b_medical.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.providemedical2, null));
+            b_rescue.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.providetransportation2, null));
+            b_shelter.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.provideshelter2, null));
+            b_food.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.providefood2, null));
+            b_water.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.providewater2, null));
+//            ViewStub simpleViewStub = ((ViewStub) findViewById(R.id.stubNeed));
+//            simpleViewStub.setLayoutResource(R.layout.appbarprovide);
+//            simpleViewStub.inflate();
+        }
     }
 }

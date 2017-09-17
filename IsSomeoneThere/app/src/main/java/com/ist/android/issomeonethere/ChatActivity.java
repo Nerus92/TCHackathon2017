@@ -28,5 +28,7 @@ public class ChatActivity extends AppCompatActivity {
 
         TextView tv_chat = (TextView) findViewById(R.id.tv_chat);
         tv_chat.setText(getIntent().getExtras().getString("info"));
+
+        // you get an extra called chat_uuid
     }
 }
