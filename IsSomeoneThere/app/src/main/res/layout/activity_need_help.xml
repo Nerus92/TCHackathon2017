@@ -37,7 +37,7 @@
     <Button
         android:id="@+id/b_rescue"
         android:layout_width="match_parent"
-        android:text="Rescue"
+        android:text="Transportation"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="3dp"

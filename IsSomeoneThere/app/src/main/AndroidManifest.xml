@@ -20,12 +20,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NeedHelpActivity"
+            android:name=".HelpCategoriesActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MedicalSituationActivity"
-            android:parentActivityName=".NeedHelpActivity"
+            android:parentActivityName=".HelpCategoriesActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".IsRoadAccessibleActivity"
@@ -38,7 +38,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RescueActivity"
-            android:parentActivityName=".NeedHelpActivity"
+            android:parentActivityName=".HelpCategoriesActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SpecialNeedsActivity"
