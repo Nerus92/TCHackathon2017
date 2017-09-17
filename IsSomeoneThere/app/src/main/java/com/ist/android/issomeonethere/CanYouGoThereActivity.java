@@ -41,8 +41,8 @@ public class CanYouGoThereActivity extends AppCompatActivity {
         b_no.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = null;
-                String sIssueType = getIntent().getExtras().getString("IssueType");
-                if (sIssueType.equals("shelter")) {
+                String sIssueType = getIntent().getExtras().getString("Type");
+                if (sIssueType.equals("Shelter")) {
                     intent = new Intent(
                             CanYouGoThereActivity.this,
                             RescueActivity.class);
