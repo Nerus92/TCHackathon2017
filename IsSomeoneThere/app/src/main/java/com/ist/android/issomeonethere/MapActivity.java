@@ -51,6 +51,8 @@ import android.location.LocationListener;
 import android.location.Location;
 import android.location.Criteria;
 
+import static com.ist.android.issomeonethere.R.id.toolbar;
+
 public class MapActivity extends AppCompatActivity implements LocationListener {
 
     // The map itself
@@ -185,7 +187,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 // get the point that was clicked and convert it to a point in map coordinates
                 Point clickPoint = mMapView.screenToLocation(new android.graphics.Point(Math.round(e.getX()), Math.round(e.getY())));
-                int tolerance = 20;
+                int tolerance = 30;
                 double mapTolerance = tolerance * mMapView.getUnitsPerDensityIndependentPixel();
                 // create objects required to do a selection with a query
                 Envelope envelope = new Envelope(clickPoint.getX() - mapTolerance, clickPoint.getY() - mapTolerance, clickPoint.getX() + mapTolerance, clickPoint.getY() + mapTolerance, map.getSpatialReference());
@@ -388,6 +390,14 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         mMapView.getGraphicsOverlays().clear();
         mMapView.getGraphicsOverlays().add(myLocationOverlay);
         mMapView.getGraphicsOverlays().add(poiTypeOverlay.get(displayedType));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (myPOISearchedType.equals("Provide")) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.appRed));
+            toolbar.setTitle("People providing "+myPOICategory.toLowerCase());
+        } else {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.appBlue));
+            toolbar.setTitle("People in need of "+myPOICategory.toLowerCase());
+        }
     }
 
     private void displayAllTypes() {
@@ -402,5 +412,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         for(GraphicsOverlay o: poiTypeOverlay.values()) {
             mMapView.getGraphicsOverlays().add(o);
         }
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.appGreen));
+        toolbar.setTitle("People around me");
     }
 }
