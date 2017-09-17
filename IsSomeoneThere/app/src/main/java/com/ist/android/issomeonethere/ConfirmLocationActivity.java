@@ -102,7 +102,7 @@ public class ConfirmLocationActivity extends AppCompatActivity implements Locati
                 poi.setCapacity(1);
                 poi.setCategory(category);
                 poi.setChatId(UUID.randomUUID().toString());
-                // TODO: Create Chat
+                ((MainApplication) getApplication()).model.createChatRoom(poi.getChatId());
                 poi.setCreated(System.currentTimeMillis());
                 poi.setLastUpdated(System.currentTimeMillis());
                 poi.setLat(myLocation.getY());
@@ -110,6 +110,7 @@ public class ConfirmLocationActivity extends AppCompatActivity implements Locati
                 poi.setType(type);
                 poi.setUuid(UUID.randomUUID().toString());
                 ((MainApplication) getApplication()).model.POIs.add(poi);
+                ((MainApplication) getApplication()).model.increment();
                 ((MainApplication) getApplication()).syncOverNetworks();
 
                 Intent intent = new Intent(

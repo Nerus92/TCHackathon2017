@@ -283,7 +283,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 poi.setCapacity(1);
                 poi.setCategory(myPOICategory);
                 poi.setChatId(UUID.randomUUID().toString());
-                // TODO: Create Chat
+                ((MainApplication) getApplication()).model.createChatRoom(poi.getChatId());
                 poi.setCreated(System.currentTimeMillis());
                 poi.setLastUpdated(System.currentTimeMillis());
                 poi.setLat(myLocation.getY());
@@ -291,7 +291,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 poi.setType(myPOIType);
                 poi.setUuid(UUID.randomUUID().toString());
                 ((MainApplication) getApplication()).model.POIs.add(poi);
-                // TODO SyncOverNetwork
+                ((MainApplication) getApplication()).model.increment();
+                ((MainApplication) getApplication()).syncOverNetworks();
             }
             updateMapView();
         }
