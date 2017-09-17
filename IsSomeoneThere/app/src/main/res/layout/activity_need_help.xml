@@ -35,9 +35,9 @@
         android:textAlignment="center" />
 
     <Button
-        android:id="@+id/b_evacuation"
+        android:id="@+id/b_rescue"
         android:layout_width="match_parent"
-        android:text="Evacuation"
+        android:text="Rescue"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="3dp"

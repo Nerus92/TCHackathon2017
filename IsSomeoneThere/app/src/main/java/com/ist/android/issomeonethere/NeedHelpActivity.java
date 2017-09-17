@@ -26,12 +26,22 @@ public class NeedHelpActivity extends AppCompatActivity {
             }
         });
 
-        final Button button = (Button) findViewById(R.id.b_medical);
-        button.setOnClickListener(new View.OnClickListener() {
+        final Button b_medical = (Button) findViewById(R.id.b_medical);
+        b_medical.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(
                         NeedHelpActivity.this,
                         MedicalSituationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        final Button b_rescue = (Button) findViewById(R.id.b_rescue);
+        b_rescue.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        NeedHelpActivity.this,
+                        RescueActivity.class);
                 startActivity(intent);
             }
         });
