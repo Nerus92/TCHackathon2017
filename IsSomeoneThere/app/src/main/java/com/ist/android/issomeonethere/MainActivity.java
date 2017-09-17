@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        Model model = new Model();
+
+        System.out.println(model.obsolete.getOldies());
     }
 
     @Override
