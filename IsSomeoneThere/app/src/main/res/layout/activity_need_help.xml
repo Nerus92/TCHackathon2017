@@ -5,9 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp">
+    android:background="@drawable/background">
 
     <!--<ViewStub android:id="@+id/stubNeed"-->
         <!--android:inflatedId="@+id/subTree"-->

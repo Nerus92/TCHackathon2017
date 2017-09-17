@@ -140,18 +140,16 @@ public class HelpCategoriesActivity extends AppCompatActivity {
             b_shelter.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.needshelter2, null));
             b_food.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.needfood2, null));
             b_water.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.needwater2, null));
-//            ViewStub simpleViewStub = ((ViewStub) findViewById(R.id.stubNeed));
-//            simpleViewStub.setLayoutResource(R.layout.appbarneed);
-//            simpleViewStub.inflate();
+            toolbar.setTitle("I need help...");
+            toolbar.setBackgroundColor(getResources().getColor(R.color.appRed));
         } else {
             b_medical.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.providemedical2, null));
             b_rescue.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.providetransportation2, null));
             b_shelter.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.provideshelter2, null));
             b_food.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.providefood2, null));
             b_water.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.providewater2, null));
-//            ViewStub simpleViewStub = ((ViewStub) findViewById(R.id.stubNeed));
-//            simpleViewStub.setLayoutResource(R.layout.appbarprovide);
-//            simpleViewStub.inflate();
+            toolbar.setTitle("I can provide assistance...");
+            toolbar.setBackgroundColor(getResources().getColor(R.color.appBlue));
         }
     }
 }
