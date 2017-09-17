@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -40,17 +41,16 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //mSocket.emit("new message", Long.toString(System.currentTimeMillis()));
                 try {
                     model.increment();
-                    mSocket.emit("new message", model.toJSON());
+
+                    final TextView text = (TextView) findViewById(R.id.mText);
+                    text.setText(Long.toString(model.lastUpdated));
+
+                    mSocket.emit("content", model.toJSON());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                /*
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                */
             }
         });
 
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         mSocket.on(Socket.EVENT_DISCONNECT,onDisconnect);
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-        mSocket.on("new message", onNewMessage);
+        mSocket.on("content", onNewContent);
         mSocket.connect();
     }
 
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
         mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-        mSocket.off("new message", onNewMessage);
+        mSocket.off("content", onNewContent);
     }
 
 
@@ -139,13 +139,25 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private Emitter.Listener onNewMessage = new Emitter.Listener() {
+    private Emitter.Listener onNewContent = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println("socket.io on new message");
+                    JSONObject data = (JSONObject) args[0];
+                    try {
+                        long count = data.getLong("lastUpdated");
+                        Log.i("onNewContent", "increment is "+ count);
+
+                        final TextView text = (TextView) findViewById(R.id.mText);
+                        text.setText(Long.toString(count));
+
+                        if (count > model.lastUpdated) model.updateAll(data);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }

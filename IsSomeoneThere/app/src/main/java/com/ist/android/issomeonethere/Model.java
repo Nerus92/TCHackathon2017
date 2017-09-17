@@ -41,6 +41,19 @@ public class Model {
         updateUsers();
     }
 
+    public void updateAll(JSONObject data) {
+        rawData.setLocal_data(data);
+
+        updateObsolete();
+        updatePOIs();
+        updateUsers();
+        try {
+            lastUpdated = data.getLong("lastUpdated");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void updatePOIs() {
         // Remove all POI
         POIs.clear();
