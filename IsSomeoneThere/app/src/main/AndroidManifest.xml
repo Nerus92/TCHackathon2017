@@ -47,6 +47,13 @@
         <activity
             android:name=".ConfirmLocationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CanYouMoveActivity"
+            android:parentActivityName=".NeedHelpActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MapActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

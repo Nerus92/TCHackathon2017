@@ -17,6 +17,7 @@
         android:layout_marginRight="6dp"
         android:layout_marginLeft="6dp"
         android:layout_marginBottom="3dp"
+        android:textSize="30dp"
         android:textAlignment="center" />
 
     <Button
@@ -29,17 +30,19 @@
         android:layout_marginRight="6dp"
         android:layout_marginLeft="6dp"
         android:layout_marginBottom="3dp"
+        android:textSize="30dp"
         android:textAlignment="center" />
 
     <Button
-        android:id="@+id/b_information"
+        android:id="@+id/b_map"
         android:layout_width="match_parent"
-        android:text="Information"
+        android:text="Map"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="3dp"
         android:layout_marginRight="6dp"
         android:layout_marginLeft="6dp"
         android:layout_marginBottom="3dp"
+        android:textSize="30dp"
         android:textAlignment="center" />
 </LinearLayout>

@@ -33,7 +33,7 @@ public class WhyNoRoadActivity extends AppCompatActivity {
                         WhyNoRoadActivity.this,
                         ConfirmLocationActivity.class);
                 intent.putExtras(getIntent().getExtras());
-                intent.putExtra("info", getIntent().getExtras().getString("info").concat("Because it's blocked/n"));
+                intent.putExtra("info", getIntent().getExtras().getString("info").concat("Because it's blocked\n"));
                 startActivity(intent);
             }
         });
@@ -45,7 +45,7 @@ public class WhyNoRoadActivity extends AppCompatActivity {
                         WhyNoRoadActivity.this,
                         ConfirmLocationActivity.class);
                 intent.putExtras(getIntent().getExtras());
-                intent.putExtra("info", getIntent().getExtras().getString("info").concat("Because of flooding/n"));
+                intent.putExtra("info", getIntent().getExtras().getString("info").concat("Because of flooding\n"));
                 startActivity(intent);
             }
         });
@@ -57,7 +57,7 @@ public class WhyNoRoadActivity extends AppCompatActivity {
                         WhyNoRoadActivity.this,
                         ConfirmLocationActivity.class);
                 intent.putExtras(getIntent().getExtras());
-                intent.putExtra("info", getIntent().getExtras().getString("info").concat("For other reasons/n"));
+                intent.putExtra("info", getIntent().getExtras().getString("info").concat("For other reasons\n"));
                 startActivity(intent);
             }
         });

@@ -53,7 +53,7 @@ public class RescueActivity extends AppCompatActivity {
                         RescueActivity.this,
                         SpecialNeedsActivity.class);
                 intent.putExtras(getIntent().getExtras());
-                intent.putExtra("info", String.format("We have %s adults, %s children and %s pets/n",
+                intent.putExtra("info", String.format("We have %s adults, %s children and %s pets\n",
                         np_adults.getValue(),
                         np_children.getValue(),
                         np_pets.getValue()));

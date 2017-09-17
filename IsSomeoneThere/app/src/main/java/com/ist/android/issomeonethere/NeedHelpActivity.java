@@ -47,5 +47,27 @@ public class NeedHelpActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        final Button b_food = (Button) findViewById(R.id.b_food);
+        b_food.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        NeedHelpActivity.this,
+                        CanYouMoveActivity.class);
+                intent.putExtra("IssueType", "food");
+                startActivity(intent);
+            }
+        });
+
+        final Button b_water = (Button) findViewById(R.id.b_water);
+        b_water.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        NeedHelpActivity.this,
+                        CanYouMoveActivity.class);
+                intent.putExtra("IssueType", "water");
+                startActivity(intent);
+            }
+        });
     }
 }

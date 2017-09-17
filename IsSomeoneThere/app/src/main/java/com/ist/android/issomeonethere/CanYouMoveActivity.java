@@ -7,12 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
-public class IsRoadAccessibleActivity extends AppCompatActivity {
+public class CanYouMoveActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_is_road_accessible);
+        setContentView(R.layout.activity_can_you_move);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -30,13 +30,9 @@ public class IsRoadAccessibleActivity extends AppCompatActivity {
         b_yes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(
-                        IsRoadAccessibleActivity.this,
-                        ConfirmLocationActivity.class);
+                        CanYouMoveActivity.this,
+                        MapActivity.class);
                 intent.putExtras(getIntent().getExtras());
-                if (getIntent().getExtras().getString("info") != null)
-                    intent.putExtra("info", getIntent().getExtras().getString("info").concat("Road is accessible\n"));
-                else
-                    intent.putExtra("info", "Road is accessible\n");
                 startActivity(intent);
             }
         });
@@ -45,13 +41,9 @@ public class IsRoadAccessibleActivity extends AppCompatActivity {
         b_no.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(
-                        IsRoadAccessibleActivity.this,
-                        WhyNoRoadActivity.class);
+                        CanYouMoveActivity.this,
+                        IsRoadAccessibleActivity.class);
                 intent.putExtras(getIntent().getExtras());
-                if (getIntent().getExtras().getString("info") != null)
-                    intent.putExtra("info", getIntent().getExtras().getString("info").concat("Road NOT accessible\n"));
-                else
-                    intent.putExtra("info", "Road NOT accessible\n");
                 startActivity(intent);
             }
         });

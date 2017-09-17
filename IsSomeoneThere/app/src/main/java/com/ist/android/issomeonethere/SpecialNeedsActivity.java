@@ -39,12 +39,15 @@ public class SpecialNeedsActivity extends AppCompatActivity {
                         IsRoadAccessibleActivity.class);
                 intent.putExtras(getIntent().getExtras());
                 String toConcat = "";
-                if (cb_elderly.isChecked())
-                    toConcat.concat("We have at least one elderly/n");
-                if (cb_disabled.isChecked())
-                    toConcat.concat("We have at least one disabled person/n");
-                if (cb_toddler.isChecked())
-                    toConcat.concat("We have at least one toddler/n");
+                if (cb_elderly.isChecked()) {
+                    toConcat = toConcat.concat("We have at least one elderly\n");
+                }
+                if (cb_disabled.isChecked()) {
+                    toConcat = toConcat.concat("We have at least one disabled person\n");
+                }
+                if (cb_toddler.isChecked()) {
+                    toConcat = toConcat.concat("We have at least one toddler\n");
+                }
                 intent.putExtra("info", getIntent().getExtras().getString("info").concat(toConcat));
                 startActivity(intent);
             }

@@ -18,12 +18,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button button = (Button) findViewById(R.id.b_need_help);
-        button.setOnClickListener(new View.OnClickListener() {
+        final Button b_need_help = (Button) findViewById(R.id.b_need_help);
+        b_need_help.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(
                         MainActivity.this,
                         NeedHelpActivity.class);
+                startActivity(intent);
+            }
+        });
+        final Button b_map = (Button) findViewById(R.id.b_map);
+        b_map.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        MainActivity.this,
+                        MapActivity.class);
                 startActivity(intent);
             }
         });

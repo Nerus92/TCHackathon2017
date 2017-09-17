@@ -33,7 +33,7 @@ public class MedicalSituationActivity extends AppCompatActivity {
                         MedicalSituationActivity.this,
                         IsRoadAccessibleActivity.class);
                 intent.putExtras(getIntent().getExtras());
-                intent.putExtra("info", "Critical condition/n");
+                intent.putExtra("info", "Critical condition\n");
                 startActivity(intent);
             }
         });
@@ -45,7 +45,7 @@ public class MedicalSituationActivity extends AppCompatActivity {
                         MedicalSituationActivity.this,
                         IsRoadAccessibleActivity.class);
                 intent.putExtras(getIntent().getExtras());
-                intent.putExtra("info", "Serious condition/n");
+                intent.putExtra("info", "Serious condition\n");
                 startActivity(intent);
             }
         });
@@ -57,7 +57,7 @@ public class MedicalSituationActivity extends AppCompatActivity {
                         MedicalSituationActivity.this,
                         IsRoadAccessibleActivity.class);
                 intent.putExtras(getIntent().getExtras());
-                intent.putExtra("info", "Stable condition/n");
+                intent.putExtra("info", "Stable condition\n");
                 startActivity(intent);
             }
         });
