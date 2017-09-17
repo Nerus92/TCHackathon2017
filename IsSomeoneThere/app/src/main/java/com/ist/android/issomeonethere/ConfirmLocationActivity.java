@@ -110,7 +110,7 @@ public class ConfirmLocationActivity extends AppCompatActivity implements Locati
                 poi.setType(type);
                 poi.setUuid(UUID.randomUUID().toString());
                 ((MainApplication) getApplication()).model.POIs.add(poi);
-                //TODO: sync over network
+                ((MainApplication) getApplication()).syncOverNetworks();
 
                 Intent intent = new Intent(
                         ConfirmLocationActivity.this,

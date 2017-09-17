@@ -37,17 +37,21 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        mUdark = new UDarkNode(this);
-
         app = (MainApplication) getApplication();
-        app.model = new Model();
-        mSocket = app.getSocket();
+       //        app.model = new Model();
+
+        app.setUdarkNode(new UDarkNode(app));
+        mUdark = app.getUDarkNode();
+
+        //mSocket = app.getSocket();
+        /*
         mSocket.on(Socket.EVENT_CONNECT,onConnect);
         mSocket.on(Socket.EVENT_DISCONNECT,onDisconnect);
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.on("content", onNewContent);
         mSocket.connect();
+        */
 
         final Button b_need_help = (Button) findViewById(R.id.b_need_help);
         b_need_help.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart()
     {
         super.onStart();
-        mUdark.start();
+        //mUdark.start();
     }
 
     @Override
@@ -93,8 +97,10 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onStop();
 
+        /*
         if(mUdark != null)
             mUdark.stop();
+         */
     }
 
 
@@ -102,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
 
+        /*
         mSocket.disconnect();
 
         mSocket.off(Socket.EVENT_CONNECT, onConnect);
@@ -109,74 +116,11 @@ public class MainActivity extends AppCompatActivity {
         mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.off("content", onNewContent);
+        */
     }
 
-    private Emitter.Listener onConnect = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    connected_io = true;
-                    System.out.println("socket.io connected");
-                }
-            });
-        }
-    };
 
-    private Emitter.Listener onDisconnect = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    connected_io = false;
-                    System.out.println("socket.io disconnected");
-                }
-            });
-        }
-    };
-
-    private Emitter.Listener onConnectError = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    connected_io = false;
-                    System.out.println("socket.io connection error");
-                }
-            });
-        }
-    };
-
-    private Emitter.Listener onNewContent = new Emitter.Listener() {
-        @Override
-        public void call(final Object... args) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    JSONObject data = (JSONObject) args[0];
-                    try {
-                        long count = data.getLong("lastUpdated");
-                        Log.i("onNewContent", "increment is "+ count);
-
-//                        final TextView text = (TextView) findViewById(R.id.mText);
-//                        text.setText(Long.toString(count));
-
-                        if (count > app.model.lastUpdated) {
-                            app.model.updateAll(data);
-                            syncOverNetworks();
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-    };
-
+    /*
     public void syncOverNetworks() {
         String json = null;
         try {
@@ -187,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         mSocket.emit("content", json);
         mUdark.broadcastFrame(json.getBytes());
     }
+    */
 
 
 }

@@ -19,19 +19,18 @@ import io.underdark.transport.TransportListener;
 public class UDarkNode implements TransportListener {
 
     private boolean running;
-    private MainActivity activity;
     private Model model;
     private long nodeId;
     private Transport transport;
+    private MainApplication app;
 
     private ArrayList<Link> links = new ArrayList<>();
     private int framesCount = 0;
 
 
-    public UDarkNode(MainActivity activity)
+    public UDarkNode(MainApplication app)
     {
-        this.activity = activity;
-        model = ((MainApplication)activity.getApplication()).model;
+        model = app.model;
         do
         {
             nodeId = new Random().nextLong();
@@ -49,7 +48,7 @@ public class UDarkNode implements TransportListener {
                 nodeId,
                 this,
                 null,
-                activity.getApplicationContext(),
+                app.getApplicationContext(),
                 kinds
         );
 
@@ -97,14 +96,15 @@ public class UDarkNode implements TransportListener {
     @Override
     public void transportNeedsActivity(Transport transport, ActivityCallback activityCallback) {
         Log.i("UDark", "Transport need activity");
-        activityCallback.accept(activity);
+        //activityCallback.accept(activity);
     }
 
     @Override
     public void transportLinkConnected(Transport transport, Link link) {
         Log.i("UDark", "Link connected");
         links.add(link);
-        activity.connected_udark = true;
+        //activity.connected_udark = true;
+
         try {
             broadcastFrame(model.toJSON().getBytes(StandardCharsets.UTF_8));
         } catch (JSONException e) {
@@ -116,11 +116,10 @@ public class UDarkNode implements TransportListener {
     public void transportLinkDisconnected(Transport transport, Link link) {
         Log.i("UDark", "Link disconnected");
         links.remove(link);
-        //activity.refreshPeers();
 
         if(links.isEmpty())
         {
-            activity.connected_udark = false;
+            //activity.connected_udark = false;
             framesCount = 0;
         }
     }
@@ -137,7 +136,8 @@ public class UDarkNode implements TransportListener {
             Log.i("onNewContent UDark", "increment is "+ count);
             if (count > model.lastUpdated) {
                 model.updateAll(json);
-                activity.syncOverNetworks();
+                //activity.syncOverNetworks();
+                app.syncOverNetworks();
             }
 
         } catch (JSONException e) {

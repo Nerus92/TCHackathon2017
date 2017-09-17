@@ -99,12 +99,31 @@ var model_data = require('../app/data.js')
 
 io.on('connection', function (socket) {
 
+  console.log("Client connected !")
+  console.log("send ")
+  to_send = model_data.get_data()
+  if (typeof(to_send) == 'string') {
+    to_send = JSON.parse(to_send);
+  }
+
+  socket.broadcast.emit('content', to_send);  
+  console.log(to_send)
+
   // send data to socket
   socket.emit('content', model_data.get_data());
 
   socket.on('content', function (data) {
+    console.log('received :')
+    console.log(data)
     if (model_data.set_data(data)) {
-      socket.broadcast.emit('content', model_data.get_data());
+      console.log("sending")
+
+      to_send = model_data.get_data()
+      if (typeof(to_send) == 'string') {
+        to_send = JSON.parse(to_send);
+      }
+
+      socket.broadcast.emit('content', to_send);
     }
 
   });
