@@ -29,15 +29,20 @@ public class HelpCategoriesActivity extends AppCompatActivity {
         final Button b_medical = (Button) findViewById(R.id.b_medical);
         b_medical.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (getIntent().getExtras().getString("Type").equals("need")) {
+                if (getIntent().getExtras().getString("Type").equals("Need")) {
                     Intent intent = new Intent(
                             HelpCategoriesActivity.this,
                             MedicalSituationActivity.class);
                     intent.putExtras(getIntent().getExtras());
-                    intent.putExtra("Category", "medical");
+                    intent.putExtra("Category", "Medical");
                     startActivity(intent);
                 } else {
-
+                    Intent intent = new Intent(
+                            HelpCategoriesActivity.this,
+                            ConfirmLocationActivity.class);
+                    intent.putExtras(getIntent().getExtras());
+                    intent.putExtra("Category", "Medical");
+                    startActivity(intent);
                 }
             }
         });
@@ -45,19 +50,19 @@ public class HelpCategoriesActivity extends AppCompatActivity {
         final Button b_rescue = (Button) findViewById(R.id.b_rescue);
         b_rescue.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (getIntent().getExtras().getString("Type").equals("need")) {
+                if (getIntent().getExtras().getString("Type").equals("Need")) {
                     Intent intent = new Intent(
                             HelpCategoriesActivity.this,
                             RescueActivity.class);
                     intent.putExtras(getIntent().getExtras());
-                    intent.putExtra("Category", "transportation");
+                    intent.putExtra("Category", "Transportation");
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(
                             HelpCategoriesActivity.this,
                             TransportationTypeActivity.class);
                     intent.putExtras(getIntent().getExtras());
-                    intent.putExtra("Category", "transportation");
+                    intent.putExtra("Category", "Transportation");
                     startActivity(intent);
                 }
             }
@@ -66,12 +71,19 @@ public class HelpCategoriesActivity extends AppCompatActivity {
         final Button b_shelter = (Button) findViewById(R.id.b_shelter);
         b_shelter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (getIntent().getExtras().getString("Type").equals("need")) {
+                if (getIntent().getExtras().getString("Type").equals("Need")) {
                     Intent intent = new Intent(
                             HelpCategoriesActivity.this,
                             CanYouMoveActivity.class);
                     intent.putExtras(getIntent().getExtras());
-                    intent.putExtra("Category", "shelter");
+                    intent.putExtra("Category", "Shelter");
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(
+                            HelpCategoriesActivity.this,
+                            ConfirmLocationActivity.class);
+                    intent.putExtras(getIntent().getExtras());
+                    intent.putExtra("Category", "Shelter");
                     startActivity(intent);
                 }
             }
@@ -80,12 +92,19 @@ public class HelpCategoriesActivity extends AppCompatActivity {
         final Button b_food = (Button) findViewById(R.id.b_food);
         b_food.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (getIntent().getExtras().getString("Type").equals("need")) {
+                if (getIntent().getExtras().getString("Type").equals("Need")) {
                     Intent intent = new Intent(
                             HelpCategoriesActivity.this,
                             CanYouGoThereActivity.class);
                     intent.putExtras(getIntent().getExtras());
-                    intent.putExtra("Category", "food");
+                    intent.putExtra("Category", "Food");
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(
+                            HelpCategoriesActivity.this,
+                            ConfirmLocationActivity.class);
+                    intent.putExtras(getIntent().getExtras());
+                    intent.putExtra("Category", "Food");
                     startActivity(intent);
                 }
             }
@@ -94,12 +113,19 @@ public class HelpCategoriesActivity extends AppCompatActivity {
         final Button b_water = (Button) findViewById(R.id.b_water);
         b_water.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (getIntent().getExtras().getString("Type").equals("need")) {
+                if (getIntent().getExtras().getString("Type").equals("Need")) {
                     Intent intent = new Intent(
                             HelpCategoriesActivity.this,
                             CanYouGoThereActivity.class);
                     intent.putExtras(getIntent().getExtras());
-                    intent.putExtra("Category", "water");
+                    intent.putExtra("Category", "Water");
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(
+                            HelpCategoriesActivity.this,
+                            ConfirmLocationActivity.class);
+                    intent.putExtras(getIntent().getExtras());
+                    intent.putExtra("Category", "Water");
                     startActivity(intent);
                 }
             }

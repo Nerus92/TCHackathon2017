@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(
                         MainActivity.this,
                         HelpCategoriesActivity.class);
-                intent.putExtra("Type", "need");
+                intent.putExtra("Type", "Need");
                 startActivity(intent);
             }
         });
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(
                         MainActivity.this,
                         HelpCategoriesActivity.class);
-                intent.putExtra("Type", "provide");
+                intent.putExtra("Type", "Provide");
                 startActivity(intent);
             }
         });
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(
                         MainActivity.this,
                         MapActivity.class);
-                intent.putExtra("Type", "map");
+                intent.putExtra("Type", "Map");
                 startActivity(intent);
             }
         });
