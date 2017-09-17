@@ -40,9 +40,17 @@ public class CanYouMoveActivity extends AppCompatActivity {
         final Button b_no = (Button) findViewById(R.id.b_no);
         b_no.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(
-                        CanYouMoveActivity.this,
-                        IsRoadAccessibleActivity.class);
+                Intent intent = null;
+                String sIssueType = getIntent().getExtras().getString("IssueType");
+                if (sIssueType.equals("shelter")) {
+                    intent = new Intent(
+                            CanYouMoveActivity.this,
+                            RescueActivity.class);
+                } else {
+                    intent = new Intent(
+                            CanYouMoveActivity.this,
+                            IsRoadAccessibleActivity.class);
+                }
                 intent.putExtras(getIntent().getExtras());
                 startActivity(intent);
             }

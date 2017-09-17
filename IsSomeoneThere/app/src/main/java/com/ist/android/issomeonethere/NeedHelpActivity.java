@@ -48,6 +48,17 @@ public class NeedHelpActivity extends AppCompatActivity {
             }
         });
 
+        final Button b_shelter = (Button) findViewById(R.id.b_shelter);
+        b_shelter.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        NeedHelpActivity.this,
+                        CanYouMoveActivity.class);
+                intent.putExtra("IssueType", "shelter");
+                startActivity(intent);
+            }
+        });
+
         final Button b_food = (Button) findViewById(R.id.b_food);
         b_food.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
