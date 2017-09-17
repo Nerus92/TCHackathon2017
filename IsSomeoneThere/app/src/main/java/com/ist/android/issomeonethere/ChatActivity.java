@@ -115,20 +115,14 @@ public class ChatActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(broadcastReceiverSrv, new IntentFilter("WIFI_CHANGE"));
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(broadcastReceiverSrv, new IntentFilter("MODEL_UPDATED"));
     }
 
     private BroadcastReceiver broadcastReceiverSrv = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            boolean cnx = intent.getExtras().getBoolean("status");
-            ImageView wifi = (ImageView) findViewById(R.id.imageWifi);
-            if (cnx) {
-                wifi.setImageDrawable(getResources().getDrawable(R.drawable.wifi));
-            }
-            else {
-                wifi.setImageDrawable(getResources().getDrawable(R.drawable.no_wifi));
-            }
+            final String chat_uuid = getIntent().getExtras().getString("chat_uuid");
+            displayMessage(chat_uuid);
         }
     };
 }
