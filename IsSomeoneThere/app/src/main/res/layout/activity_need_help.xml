@@ -1,85 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background" >
+    android:background="@drawable/background"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <!--<ViewStub android:id="@+id/stubNeed"-->
+        <!--android:inflatedId="@+id/subTree"-->
+        <!--android:layout="@layout/appbarneed"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--tools:layout_constraintTop_creator="1"-->
+        <!--tools:layout_constraintRight_creator="1"-->
+        <!--tools:layout_constraintLeft_creator="1"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
+
 
     <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="parent"
         android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarNeed"
+        android:id="@+id/ab_need_help">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/transparent"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_collapseMode="pin"
-                />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Need Help" />
 
     </android.support.design.widget.AppBarLayout>
 
     <Button
         android:id="@+id/b_medical"
-        android:layout_width="match_parent"
-        android:text="Medical"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="64dp"
         android:layout_weight="1"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginBottom="3dp"
-        android:textAlignment="center" />
+        android:background="@drawable/needmedical2"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/b_rescue"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ab_need_help"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        android:layout_marginBottom="0dp" />
 
     <Button
         android:id="@+id/b_rescue"
-        android:layout_width="match_parent"
-        android:text="Transportation"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:layout_weight="1"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginBottom="3dp"
-        android:textAlignment="center" />
+        android:background="@drawable/needrescue2"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/b_shelter"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/b_medical" />
 
     <Button
         android:id="@+id/b_shelter"
-        android:layout_width="match_parent"
-        android:text="Shelter"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:layout_weight="1"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginBottom="3dp"
-        android:textAlignment="center" />
+        android:background="@drawable/needshelter2"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/b_food"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/b_rescue" />
 
     <Button
         android:id="@+id/b_food"
-        android:layout_width="match_parent"
-        android:text="Food"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:layout_weight="1"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginBottom="3dp"
-        android:textAlignment="center" />
+        android:background="@drawable/needfood2"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/b_water"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/b_shelter" />
 
     <Button
         android:id="@+id/b_water"
-        android:layout_width="match_parent"
-        android:text="Water"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+        android:layout_marginBottom="64dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:layout_weight="1"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginBottom="3dp"
-        android:textAlignment="center"/>
-</LinearLayout>
+        android:background="@drawable/needwater2"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/b_food" />
+</android.support.constraint.ConstraintLayout>
