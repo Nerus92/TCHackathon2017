@@ -21,6 +21,12 @@ public class RawData {
         }
     }
 
+    public JSONObject getLocal_data() {
+        return local_data;
+    }
 
+    public void setLocal_data(JSONObject local_data) {
+        this.local_data = local_data;
+    }
 
 }
