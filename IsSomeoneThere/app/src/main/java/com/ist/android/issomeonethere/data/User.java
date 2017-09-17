@@ -14,8 +14,8 @@ public class User {
     List<String> types;
     Double lng;
     Double lat;
-    String created;
-    String lastUpdated;
+    long created;
+    long lastUpdated;
 
     public User() {
         types = new ArrayList<String>();
@@ -61,19 +61,19 @@ public class User {
         this.lat = lat;
     }
 
-    public String getCreated() {
+    public long getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(long created) {
         this.created = created;
     }
 
-    public String getLastUpdated() {
+    public long getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(String lastUpdated) {
+    public void setLastUpdated(long lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 }

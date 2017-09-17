@@ -11,8 +11,8 @@ public class POI {
     Double lng;
     Double lat;
     String category;
-    String created;
-    String lastUpdated;
+    long created;
+    long lastUpdated;
     String chatId;
     int capacity;
 
@@ -41,19 +41,19 @@ public class POI {
         this.category = category;
     }
 
-    public String getCreated() {
+    public long getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(long created) {
         this.created = created;
     }
 
-    public String getLastUpdated() {
+    public long getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(String lastUpdated) {
+    public void setLastUpdated(long lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 

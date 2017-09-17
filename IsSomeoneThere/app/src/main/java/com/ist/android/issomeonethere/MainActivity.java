@@ -23,6 +23,7 @@ import io.socket.emitter.Emitter;
 public class MainActivity extends AppCompatActivity {
 
     private Socket mSocket;
+    public Model model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,20 +33,26 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        model = new Model();
+        System.out.println(model.obsolete.getOldies());
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSocket.emit("new message", Long.toString(System.currentTimeMillis()));
+                //mSocket.emit("new message", Long.toString(System.currentTimeMillis()));
+                try {
+                    model.increment();
+                    mSocket.emit("new message", model.toJSON());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 /*
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 */
             }
         });
-
-        Model model = new Model();
-        System.out.println(model.obsolete.getOldies());
 
         MainApplication app = (MainApplication) getApplication();
         mSocket = app.getSocket();

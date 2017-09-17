@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ public class Model {
 
     private RawData rawData;
 
+    public long lastUpdated;
     public List<POI> POIs;
     public List<User> users;
     public Obsolete obsolete;
@@ -29,6 +31,7 @@ public class Model {
         POIs = new ArrayList<POI>();
         users = new ArrayList<User>();
         obsolete = new Obsolete();
+        lastUpdated = 0; // System.currentTimeMillis();
 
         System.out.println("Init model");
         rawData = new RawData();
@@ -58,8 +61,8 @@ public class Model {
                 java_poi.setLat(latlong.getDouble(0));
                 java_poi.setLng(latlong.getDouble(1));
 
-                java_poi.setCreated(json_poi.getString("created"));
-                java_poi.setLastUpdated(json_poi.getString("lastUpdated"));
+                java_poi.setCreated(json_poi.getLong("created"));
+                java_poi.setLastUpdated(json_poi.getLong("lastUpdated"));
 
                 java_poi.setChatId(json_poi.getString("chatUid"));
 
@@ -70,6 +73,10 @@ public class Model {
             e.printStackTrace();
         }
 
+    }
+
+    public void increment() {
+        lastUpdated++;
     }
 
     private void updateUsers() {
@@ -98,8 +105,8 @@ public class Model {
                 java_user.setLat(latlong.getDouble(0));
                 java_user.setLng(latlong.getDouble(1));
 
-                java_user.setCreated(json_user.getString("created"));
-                java_user.setLastUpdated(json_user.getString("lastUpdated"));
+                java_user.setCreated(json_user.getLong("created"));
+                java_user.setLastUpdated(json_user.getLong("lastUpdated"));
 
                 users.add(java_user);
             }
@@ -113,16 +120,80 @@ public class Model {
     private void updateObsolete() {
         obsolete.clear();
         try {
-            JSONArray rawObsolete =  rawData.local_data.getJSONArray("obsolete");
-            for (int i = 0; i < rawObsolete.length(); i++) {
-                JSONArray obsoleteData = rawObsolete.getJSONArray(i);
-                obsolete.add(obsoleteData.getString(0));
+            JSONObject rawObsolete =  rawData.local_data.getJSONObject("obsolete");
+
+            Iterator<String> it = rawObsolete.keys();
+            while (it.hasNext()) {
+                obsolete.add(it.next());
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+    }
 
+    public String toJSON() throws JSONException {
+        JSONObject json_model = new JSONObject();
+
+        // ------ Obso
+        JSONObject json_obsolete = new JSONObject();
+        for(String obso : obsolete.getOldies()) {
+            json_obsolete.put(obso, "toAddLater");
+        }
+
+        json_model.put("obsolete", json_obsolete);
+
+        // ------ POI
+        JSONArray json_pois = new JSONArray();
+        for(POI poi : POIs) {
+            JSONObject json_poi = new JSONObject();
+            json_poi.put("uid", poi.getUuid());
+            json_poi.put("type", poi.getType());
+            json_poi.put("category", poi.getCategory());
+            json_poi.put("capacity", poi.getCapacity());
+            JSONArray json_poi_loc = new JSONArray();
+            json_poi_loc.put(poi.getLat());
+            json_poi_loc.put(poi.getLng());
+            json_poi.put("loc", json_poi_loc);
+            json_poi.put("created", poi.getCreated());
+            json_poi.put("lastUpdated", poi.getLastUpdated());
+            json_poi.put("chatUid", poi.getChatId());
+
+            json_pois.put(json_poi);
+        }
+
+        json_model.put("pointOfInterests", json_pois);
+
+        // --------- Users
+        JSONArray json_users = new JSONArray();
+        for(User user : users) {
+            JSONObject json_user = new JSONObject();
+            json_user.put("uid", user.getUid());
+
+            JSONArray type = new JSONArray();
+            for(String t : user.getTypes()) {
+                type.put(t);
+            }
+            json_user.put("type", type);
+
+            JSONArray json_user_loc = new JSONArray();
+            json_user_loc.put(user.getLat());
+            json_user_loc.put(user.getLng());
+            json_user.put("loc", json_user_loc);
+
+            json_user.put("created", user.getCreated());
+            json_user.put("lastUpdated", user.getLastUpdated());
+
+            json_user.put("username", user.getUsername());
+
+            json_users.put(json_user);
+        }
+
+        json_model.put("users", json_users);
+
+        json_model.put("lastUpdated", lastUpdated);
+
+        return json_model.toString();
     }
 
 }
