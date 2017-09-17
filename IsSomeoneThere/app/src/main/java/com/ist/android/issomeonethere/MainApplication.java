@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 
 
 public class MainApplication extends Application {
+    public Model model;
 
     private Socket mSocket;
     {
@@ -21,4 +22,6 @@ public class MainApplication extends Application {
     public Socket getSocket() {
         return mSocket;
     }
+
+
 }

@@ -29,6 +29,8 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.ist.android.issomeonethere.data.POI;
+import java.util.UUID;
 
 public class ConfirmLocationActivity extends AppCompatActivity implements LocationListener {
     // The map itself
@@ -93,10 +95,28 @@ public class ConfirmLocationActivity extends AppCompatActivity implements Locati
         final Button b_confirm = (Button) findViewById(R.id.b_confirm);
         b_confirm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                String type = getIntent().getExtras().getString("Type");
+                String category = getIntent().getExtras().getString("Category");
+
+                POI poi = new POI();
+                poi.setCapacity(1);
+                poi.setCategory(category);
+                poi.setChatId(UUID.randomUUID().toString());
+                // TODO: Create Chat
+                poi.setCreated(System.currentTimeMillis());
+                poi.setLastUpdated(System.currentTimeMillis());
+                poi.setLat(myLocation.getY());
+                poi.setLng(myLocation.getX());
+                poi.setType(type);
+                poi.setUuid(UUID.randomUUID().toString());
+                ((MainApplication) getApplication()).model.POIs.add(poi);
+                //TODO: sync over network
+
                 Intent intent = new Intent(
                         ConfirmLocationActivity.this,
                         ChatActivity.class);
                 intent.putExtras(getIntent().getExtras());
+                intent.putExtra("chat_uuid", poi.getChatId());
                 startActivity(intent);
             }
         });

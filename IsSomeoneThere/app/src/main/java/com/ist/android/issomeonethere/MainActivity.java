@@ -27,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Socket mSocket;
     public UDarkNode mUdark;
-    public Model model;
-
+    private MainApplication app;
     public Boolean connected_io = false;
     public Boolean connected_udark = false;
 
@@ -38,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        model = new Model();
         mUdark = new UDarkNode(this);
 
-        MainApplication app = (MainApplication) getApplication();
+        app = (MainApplication) getApplication();
+        app.model = new Model();
         mSocket = app.getSocket();
         mSocket.on(Socket.EVENT_CONNECT,onConnect);
         mSocket.on(Socket.EVENT_DISCONNECT,onDisconnect);
@@ -165,8 +164,8 @@ public class MainActivity extends AppCompatActivity {
 //                        final TextView text = (TextView) findViewById(R.id.mText);
 //                        text.setText(Long.toString(count));
 
-                        if (count > model.lastUpdated) {
-                            model.updateAll(data);
+                        if (count > app.model.lastUpdated) {
+                            app.model.updateAll(data);
                             syncOverNetworks();
                         }
 
@@ -181,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
     public void syncOverNetworks() {
         String json = null;
         try {
-            json = model.toJSON();
+            json = app.model.toJSON();
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.Button;
 import android.view.View;
+import com.ist.android.issomeonethere.data.POI;
 import android.graphics.drawable.BitmapDrawable;
 
 import android.graphics.Color;
@@ -212,11 +213,12 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
             }
         });
 
-
-        drawPOI(37.774929, -122.419416, "NeedFood");
-        drawPOI(37.734929, -122.429416, "ProvideFood");
-        drawPOI(37.714929, -122.439416, "NeedFood");
-        drawPOI(37.784929, -122.419416, "ProvideFood");
+        for(POI poi: ((MainApplication) getApplication()).model.POIs) {
+            Double lat = poi.getLat();
+            Double lng = poi.getLng();
+            String cat = poi.getType()+poi.getCategory();
+            drawPOI(lat, lng, cat);
+        }
 
         // setup GPS
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

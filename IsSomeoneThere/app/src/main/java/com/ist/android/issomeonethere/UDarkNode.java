@@ -20,6 +20,7 @@ public class UDarkNode implements TransportListener {
 
     private boolean running;
     private MainActivity activity;
+    private Model model;
     private long nodeId;
     private Transport transport;
 
@@ -30,7 +31,7 @@ public class UDarkNode implements TransportListener {
     public UDarkNode(MainActivity activity)
     {
         this.activity = activity;
-
+        model = ((MainApplication)activity.getApplication()).model;
         do
         {
             nodeId = new Random().nextLong();
@@ -51,6 +52,7 @@ public class UDarkNode implements TransportListener {
                 activity.getApplicationContext(),
                 kinds
         );
+
     }
 
     public void start()
@@ -104,7 +106,7 @@ public class UDarkNode implements TransportListener {
         links.add(link);
         activity.connected_udark = true;
         try {
-            broadcastFrame(activity.model.toJSON().getBytes(StandardCharsets.UTF_8));
+            broadcastFrame(model.toJSON().getBytes(StandardCharsets.UTF_8));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -133,8 +135,8 @@ public class UDarkNode implements TransportListener {
             JSONObject json = new JSONObject(from_json);
             long count = json.getLong("lastUpdated");
             Log.i("onNewContent UDark", "increment is "+ count);
-            if (count > activity.model.lastUpdated) {
-                activity.model.updateAll(json);
+            if (count > model.lastUpdated) {
+                model.updateAll(json);
                 activity.syncOverNetworks();
             }
 
