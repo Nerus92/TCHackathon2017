@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,54 +9,79 @@
     tools:context="com.ist.android.issomeonethere.BoatTypeActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="parent"
         android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarProvide"
+        android:id="@+id/appBarLayout6">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_collapseMode="pin"
-            />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Transportation" />
 
     </android.support.design.widget.AppBarLayout>
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="96dp"
         android:layout_weight="1"
-        android:text="WHAT TYPE OF BOAT?"
+        android:gravity="center"
         android:maxLines="100"
-        android:textSize="30dp"
-        android:gravity="center" />
+        android:text="What type of boat?"
+        android:textColor="@android:color/black"
+        android:textSize="25dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/appBarLayout6" />
 
     <Button
         android:id="@+id/b_motorboat"
-        android:layout_width="match_parent"
-        android:text="MOTORBOAT"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="96dp"
         android:layout_weight="1"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginBottom="3dp"
-        android:textAlignment="center" />
+        android:background="@drawable/motorbutton"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:textAlignment="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.0" />
 
     <Button
         android:id="@+id/b_inflatable"
-        android:layout_width="match_parent"
-        android:text="INFLATABLE"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="32dp"
         android:layout_weight="1"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginBottom="3dp"
-        android:textAlignment="center" />
+        android:background="@drawable/inflatablebutton"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:textAlignment="center"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/b_motorboat" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
