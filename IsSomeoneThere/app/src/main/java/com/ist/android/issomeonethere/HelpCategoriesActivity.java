@@ -68,6 +68,12 @@ public class HelpCategoriesActivity extends AppCompatActivity {
             }
         });
 
+        if (getIntent().getExtras().getString("Type").equals("Need")) {
+            b_rescue.setText("Rescue");
+        } else {
+            b_rescue.setText("Transportation");
+        }
+
         final Button b_shelter = (Button) findViewById(R.id.b_shelter);
         b_shelter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
