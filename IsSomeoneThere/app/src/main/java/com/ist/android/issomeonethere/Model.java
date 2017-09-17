@@ -10,12 +10,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by jjeannin on 9/16/17.
- */
 
 public class Model {
 
@@ -42,15 +41,18 @@ public class Model {
     }
 
     public void updateAll(JSONObject data) {
-        rawData.setLocal_data(data);
 
-        updateObsolete();
-        updatePOIs();
-        updateUsers();
-        try {
-            lastUpdated = data.getLong("lastUpdated");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        synchronized (this) {
+            rawData.setLocal_data(data);
+
+            updateObsolete();
+            updatePOIs();
+            updateUsers();
+            try {
+                lastUpdated = data.getLong("lastUpdated");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -127,7 +129,6 @@ public class Model {
             e.printStackTrace();
         }
 
-
     }
 
     private void updateObsolete() {
@@ -146,67 +147,71 @@ public class Model {
     }
 
     public String toJSON() throws JSONException {
-        JSONObject json_model = new JSONObject();
 
-        // ------ Obso
-        JSONObject json_obsolete = new JSONObject();
-        for(String obso : obsolete.getOldies()) {
-            json_obsolete.put(obso, "toAddLater");
-        }
+        synchronized (this) {
 
-        json_model.put("obsolete", json_obsolete);
+            JSONObject json_model = new JSONObject();
 
-        // ------ POI
-        JSONArray json_pois = new JSONArray();
-        for(POI poi : POIs) {
-            JSONObject json_poi = new JSONObject();
-            json_poi.put("uid", poi.getUuid());
-            json_poi.put("type", poi.getType());
-            json_poi.put("category", poi.getCategory());
-            json_poi.put("capacity", poi.getCapacity());
-            JSONArray json_poi_loc = new JSONArray();
-            json_poi_loc.put(poi.getLat());
-            json_poi_loc.put(poi.getLng());
-            json_poi.put("loc", json_poi_loc);
-            json_poi.put("created", poi.getCreated());
-            json_poi.put("lastUpdated", poi.getLastUpdated());
-            json_poi.put("chatUid", poi.getChatId());
-
-            json_pois.put(json_poi);
-        }
-
-        json_model.put("pointOfInterests", json_pois);
-
-        // --------- Users
-        JSONArray json_users = new JSONArray();
-        for(User user : users) {
-            JSONObject json_user = new JSONObject();
-            json_user.put("uid", user.getUid());
-
-            JSONArray type = new JSONArray();
-            for(String t : user.getTypes()) {
-                type.put(t);
+            // ------ Obso
+            JSONObject json_obsolete = new JSONObject();
+            for(String obso : obsolete.getOldies()) {
+                json_obsolete.put(obso, "toAddLater");
             }
-            json_user.put("type", type);
 
-            JSONArray json_user_loc = new JSONArray();
-            json_user_loc.put(user.getLat());
-            json_user_loc.put(user.getLng());
-            json_user.put("loc", json_user_loc);
+            json_model.put("obsolete", json_obsolete);
 
-            json_user.put("created", user.getCreated());
-            json_user.put("lastUpdated", user.getLastUpdated());
+            // ------ POI
+            JSONArray json_pois = new JSONArray();
+            for(POI poi : POIs) {
+                JSONObject json_poi = new JSONObject();
+                json_poi.put("uid", poi.getUuid());
+                json_poi.put("type", poi.getType());
+                json_poi.put("category", poi.getCategory());
+                json_poi.put("capacity", poi.getCapacity());
+                JSONArray json_poi_loc = new JSONArray();
+                json_poi_loc.put(poi.getLat());
+                json_poi_loc.put(poi.getLng());
+                json_poi.put("loc", json_poi_loc);
+                json_poi.put("created", poi.getCreated());
+                json_poi.put("lastUpdated", poi.getLastUpdated());
+                json_poi.put("chatUid", poi.getChatId());
 
-            json_user.put("username", user.getUsername());
+                json_pois.put(json_poi);
+            }
 
-            json_users.put(json_user);
+            json_model.put("pointOfInterests", json_pois);
+
+            // --------- Users
+            JSONArray json_users = new JSONArray();
+            for(User user : users) {
+                JSONObject json_user = new JSONObject();
+                json_user.put("uid", user.getUid());
+
+                JSONArray type = new JSONArray();
+                for(String t : user.getTypes()) {
+                    type.put(t);
+                }
+                json_user.put("type", type);
+
+                JSONArray json_user_loc = new JSONArray();
+                json_user_loc.put(user.getLat());
+                json_user_loc.put(user.getLng());
+                json_user.put("loc", json_user_loc);
+
+                json_user.put("created", user.getCreated());
+                json_user.put("lastUpdated", user.getLastUpdated());
+
+                json_user.put("username", user.getUsername());
+
+                json_users.put(json_user);
+            }
+
+            json_model.put("users", json_users);
+
+            json_model.put("lastUpdated", lastUpdated);
+
+            return json_model.toString();
         }
-
-        json_model.put("users", json_users);
-
-        json_model.put("lastUpdated", lastUpdated);
-
-        return json_model.toString();
     }
 
 }
