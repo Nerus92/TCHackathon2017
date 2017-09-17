@@ -1,14 +1,19 @@
 package com.ist.android.issomeonethere;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
         app = (MainApplication) getApplication();
         app.model.increment();
         app.syncOverNetworks();
@@ -45,16 +49,23 @@ public class MainActivity extends AppCompatActivity {
 
         app.setUdarkNode(new UDarkNode(app));
         mUdark = app.getUDarkNode();
+        mUdark.start();
 
-        //mSocket = app.getSocket();
-        /*
-        mSocket.on(Socket.EVENT_CONNECT,onConnect);
-        mSocket.on(Socket.EVENT_DISCONNECT,onDisconnect);
-        mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
-        mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-        mSocket.on("content", onNewContent);
-        mSocket.connect();
-        */
+        ImageView wifi = (ImageView) findViewById(R.id.imageWifi);
+        if (app.getSocketStatus()) {
+            wifi.setImageDrawable(getResources().getDrawable(R.drawable.wifi));
+        }
+        else {
+            wifi.setImageDrawable(getResources().getDrawable(R.drawable.no_wifi));
+        }
+
+        ImageView udark = (ImageView) findViewById(R.id.imageMesh);
+        if (mUdark.connected) {
+            udark.setImageDrawable(getResources().getDrawable(R.drawable.mesh_on));
+        }
+        else {
+            udark.setImageDrawable(getResources().getDrawable(R.drawable.mesh_off));
+        }
 
         final Button b_need_help = (Button) findViewById(R.id.b_need_help);
         b_need_help.setOnClickListener(new View.OnClickListener() {
@@ -86,55 +97,60 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
+
+
+   protected void onResume() {
+       super.onResume();
+       LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(broadcastReceiverSrv, new IntentFilter("WIFI_CHANGE"));
+       LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(broadcastReceiverUdark, new IntentFilter("UDARK_CHANGE"));
+   }
 
     @Override
     protected void onStart()
     {
         super.onStart();
-        //mUdark.start();
     }
 
     @Override
     protected void onStop()
     {
         super.onStop();
-
-        /*
-        if(mUdark != null)
-            mUdark.stop();
-         */
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        /*
-        mSocket.disconnect();
-
-        mSocket.off(Socket.EVENT_CONNECT, onConnect);
-        mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
-        mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
-        mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-        mSocket.off("content", onNewContent);
-        */
     }
 
-
-    /*
-    public void syncOverNetworks() {
-        String json = null;
-        try {
-            json = app.model.toJSON();
-        } catch (JSONException e) {
-            e.printStackTrace();
+    private BroadcastReceiver broadcastReceiverSrv = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean cnx = intent.getExtras().getBoolean("status");
+            ImageView wifi = (ImageView) findViewById(R.id.imageWifi);
+            if (cnx) {
+                wifi.setImageDrawable(getResources().getDrawable(R.drawable.wifi));
+            }
+            else {
+                wifi.setImageDrawable(getResources().getDrawable(R.drawable.no_wifi));
+            }
         }
-        mSocket.emit("content", json);
-        mUdark.broadcastFrame(json.getBytes());
-    }
-    */
+    };
 
+    private BroadcastReceiver broadcastReceiverUdark = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean cnx = intent.getExtras().getBoolean("status");
+            ImageView mesh = (ImageView) findViewById(R.id.imageMesh);
+            if (cnx) {
+                mesh.setImageDrawable(getResources().getDrawable(R.drawable.mesh_on));
+            }
+            else {
+                mesh.setImageDrawable(getResources().getDrawable(R.drawable.mesh_off));
+            }
+        }
+    };
 
 }
