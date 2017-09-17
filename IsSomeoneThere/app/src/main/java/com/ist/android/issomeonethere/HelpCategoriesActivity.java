@@ -39,7 +39,7 @@ public class HelpCategoriesActivity extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(
                             HelpCategoriesActivity.this,
-                            ConfirmLocationActivity.class);
+                            MapActivity.class);
                     intent.putExtras(getIntent().getExtras());
                     intent.putExtra("Category", "Medical");
                     startActivity(intent);
