@@ -7,6 +7,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Button;
 
+import com.google.gson.JsonParser;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,6 +17,8 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 import java.net.URISyntaxException;
+
+import static android.R.attr.data;
 
 
 public class MainApplication extends Application {
@@ -59,7 +63,13 @@ public class MainApplication extends Application {
         @Override
         public void call(final Object... args) {
             try {
-                JSONObject data = (JSONObject) args[0];
+                JSONObject data;
+                try {
+                    data = (JSONObject) args[0];
+                } catch(ClassCastException e ) {
+                    String t = (String) args[0];
+                    data = new JSONObject(t);
+                }
                 long count = data.getLong("lastUpdated");
                 Log.i("onNewContent", "increment is "+ count);
 

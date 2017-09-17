@@ -1,6 +1,7 @@
 package com.ist.android.issomeonethere;
 
 import android.content.Intent;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +15,7 @@ public class CanYouGoThereActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_can_you_go_there);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_go_there);
         setSupportActionBar(toolbar);
 
         toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
@@ -25,6 +26,17 @@ public class CanYouGoThereActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        final String type = getIntent().getExtras().getString("Type");
+        final String category = getIntent().getExtras().getString("Category");
+
+        if (type.equals("Need")) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.appRed));
+            toolbar.setTitle("I need " + category + "...");
+        } else {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.appBlue));
+            toolbar.setTitle("I can provide " + category + "...");
+        }
 
         final Button b_yes = (Button) findViewById(R.id.b_yes);
         b_yes.setOnClickListener(new View.OnClickListener() {

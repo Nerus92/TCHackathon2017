@@ -29,7 +29,7 @@
             android:background="@android:color/transparent"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="Rescue" />
+            app:title="I need rescue..." />
 
     </android.support.design.widget.AppBarLayout>
 

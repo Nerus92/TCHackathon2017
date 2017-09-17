@@ -28,7 +28,7 @@
             android:background="@android:color/transparent"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="Medical" />
+            app:title="I need medical assistance..." />
 
     </android.support.design.widget.AppBarLayout>
 
