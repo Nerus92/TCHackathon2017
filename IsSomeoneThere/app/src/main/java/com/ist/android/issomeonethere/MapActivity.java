@@ -198,13 +198,14 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         mMapView.setMap(map);
 
         // Configure my type
-        try {
-            String type = getIntent().getExtras().getString("Type");
-            String category = getIntent().getExtras().getString("Category");
+        String type = getIntent().getExtras().getString("Type");
+        String category = getIntent().getExtras().getString("Category");
+        if(type == null || category == null) {
+            displayAllTypes();
+        } else {
             updateMyType(type, category);
-        } catch(Exception e) {
-            updateMyType("Need", "Food");
         }
+
 
         // For debug only
         final Button button = (Button) findViewById(R.id.clickButton);
@@ -276,22 +277,22 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
 
         if(bFirstLocation) {
             bFirstLocation = false;
-
-            // PUblish my position only the first time right now...
-            POI poi = new POI();
-            poi.setCapacity(1);
-            poi.setCategory(myPOICategory);
-            poi.setChatId(UUID.randomUUID().toString());
-            // TODO: Create Chat
-            poi.setCreated(System.currentTimeMillis());
-            poi.setLastUpdated(System.currentTimeMillis());
-            poi.setLat(myLocation.getY());
-            poi.setLng(myLocation.getX());
-            poi.setType(myPOIType);
-            poi.setUuid(UUID.randomUUID().toString());
-            ((MainApplication) getApplication()).model.POIs.add(poi);
-            // TODO SyncOverNetwork
-
+            if (!myPOICategory.isEmpty()) {
+                // PUblish my position only the first time right now...
+                POI poi = new POI();
+                poi.setCapacity(1);
+                poi.setCategory(myPOICategory);
+                poi.setChatId(UUID.randomUUID().toString());
+                // TODO: Create Chat
+                poi.setCreated(System.currentTimeMillis());
+                poi.setLastUpdated(System.currentTimeMillis());
+                poi.setLat(myLocation.getY());
+                poi.setLng(myLocation.getX());
+                poi.setType(myPOIType);
+                poi.setUuid(UUID.randomUUID().toString());
+                ((MainApplication) getApplication()).model.POIs.add(poi);
+                // TODO SyncOverNetwork
+            }
             updateMapView();
         }
 
@@ -341,7 +342,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         Graphic graphic = new Graphic(poi, poiTypeSymbols.get(type));
         poiTypeOverlay.get(type).getGraphics().add(graphic);
 
-        if(type.equals(displayedType)) {
+        if(displayedType.isEmpty() || type.equals(displayedType)) {
             // Update envelope boundaries
             if (lat > latMax) latMax = lat;
             if (lat < latMin) latMin = lat;
@@ -356,11 +357,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         Log.i("ENVELOPE", envelope.toString());
         int counter = 0;
         POI selectedPoint = new POI();
-        Multipoint multipoint = new Multipoint(poiTypeLocationList.get(displayedType));
-//        for (Point pt : multipoint.getPoints()) {
-        for(POI poi: ((MainApplication) getApplication()).model.POIs) {
-//          Log.i("Point", String.format("Point x=%f,y=%f",  pt.getX(), pt.getY()));
-            if (poi.getCategory().equals(myPOICategory) && poi.getType().equals(myPOISearchedType) &&
+
+        for (POI poi : ((MainApplication) getApplication()).model.POIs) {
+            if ((myPOICategory.isEmpty() || (poi.getCategory().equals(myPOICategory) && poi.getType().equals(myPOISearchedType))) &&
                     poi.getLng() < envelope.getXMax() && poi.getLng() > envelope.getXMin() &&
                     poi.getLat() < envelope.getYMax() && poi.getLat() > envelope.getYMin()) {
                 counter++;
@@ -400,7 +399,19 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         mMapView.getGraphicsOverlays().clear();
         mMapView.getGraphicsOverlays().add(myLocationOverlay);
         mMapView.getGraphicsOverlays().add(poiTypeOverlay.get(displayedType));
-        updateMapView();
     }
 
+    private void displayAllTypes() {
+        myPOICategory = "";
+        myPOIType = "";
+        myPOISearchedType = "";
+        myType = myPOIType + myPOICategory;
+        displayedType = myPOISearchedType + myPOICategory;
+//        Log.i("TYPE", String.format("I am %s, I see %s", myType, displayedType));
+        mMapView.getGraphicsOverlays().clear();
+        mMapView.getGraphicsOverlays().add(myLocationOverlay);
+        for(GraphicsOverlay o: poiTypeOverlay.values()) {
+            mMapView.getGraphicsOverlays().add(o);
+        }
+    }
 }
