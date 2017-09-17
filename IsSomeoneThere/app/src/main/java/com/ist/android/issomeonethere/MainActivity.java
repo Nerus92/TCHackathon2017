@@ -26,6 +26,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private Socket mSocket;
+    public UDarkNode mUdark;
     public Model model;
 
     @Override
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         model = new Model();
-        System.out.println(model.obsolete.getOldies());
+        mUdark = new UDarkNode(this);
 
         MainApplication app = (MainApplication) getApplication();
         mSocket = app.getSocket();
@@ -78,7 +79,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        mUdark.start();
+    }
 
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+
+        if(mUdark != null)
+            mUdark.stop();
+    }
 
 
     @Override
@@ -153,4 +168,9 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     };
+
+
+    public void refreshFrames() {
+    }
+
 }
